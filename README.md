@@ -88,7 +88,54 @@ To be more precise, the walk steps up under the event $Z_t  = 1 | Z_t + Z_c = 1$
 $$ p^* = P(Z_t = 1 | Z_t + Z_c = 1) = 
 \frac{P(Z_t + Z_c = 1 | Z_t = 1)P(Z_t = 1)}
 {P(Z_t + Z_c = 1)} = 
-\frac{p * p_t}{ p * p_t + (1 - p) * p_c} $$
+\frac{p p_t}{ p p_t + (1 - p)p_c} $$
 
 
+Thus 
 
+$$ p^*  = \frac{p ( 1-\delta)}{1 - p\delta} $$
+
+
+And the probability of conversion in $C = 1 - p^* = \frac{1 - p}{1 - p\delta}$
+
+
+If we are considering the opposite case, where $p_t = (1 + \delta)p_c$, then 
+
+$$p^* = \frac{p(1 + \delta)}{1 +  p\delta}$$
+
+and $1 - p^* = \frac{1 - p} {1+ p\delta}$
+
+Thus, the equations to optimize become 
+
+$$ \sum_{n= 1}^N\frac{d}{n} {n \choose \frac{n + d}{2}} p ^ {\frac{n + d}{2}} (1 - p)^{\frac{n - d}{2}} < \alpha$$
+
+and 
+
+
+$$ \sum_{n= 1}^N\frac{d}{n} {n \choose \frac{n + d}{2}} (\frac{p ( 1-\delta)}{1 - p\delta}) ^ {\frac{n + d}{2}} (\frac{1 - p}{1 - p\delta})^{\frac{n - d}{2}} > \beta$$
+
+
+## Bias in the Walk
+
+Since $E[X_i] = 2p -1 $, the walk does not move along the origin. Instead, it travels along $i(2p - 1)$. 
+
+This means that $d$ cannot be parallel, but must also move in parellel to the walk (corrected for bias). 
+
+
+### Case 1:  $p_t > p_c$
+
+Here, $d$  becomes $d(n) = n(2p + 1) + d$. For ease of 
+computation, take the integer part of this number. For sufficeintly large experiments, this won't impact the results too much. Further work should study how the change in coordinate system impacts test behavior. 
+
+We care about when the walk crosses the *upper bound*, so we define our constraints based on $\frac{n + d(n)}{2}$ conversions in the **treatment group**. 
+
+### Case 2: $p_t < p_c$
+
+Here, $d$  becomes $d(n) = n(2p + 1) - d$.
+
+We care about when the walk crosses the *lower bound*, so we define our constraints based on $\frac{n + d(n)}{2}$ conversions in the **control group**. 
+
+
+## Two sided Test
+
+For a two sided test, use Evan's assumption that, for large value's of $d$, the probability of reaching $d$ or $-d$ is the sum of both probabilities. Constraints will then need to depend on two values of $d$ - one for $p_c < p_t$ and one for $p_c > p_t$. This is room for further exploration and will probably require some nifty code optimization. 
