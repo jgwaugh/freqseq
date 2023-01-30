@@ -1,5 +1,4 @@
 # Frequentist Sequential Testing
-Frequentist Sequential A/B Testing
 
 ## Intro
 
@@ -26,21 +25,18 @@ and
 $$ H_1: p_c < p_t $$
 
 
-We define each individual as a bernoulli random variable as follows
-
-$$
-
-X_i =
-    \left\{
-        \begin{array}{cc}
-                1 & \mathrm{with\ \space} p = sp_t \\
-                - 1 & \mathrm{with\ \space} p = (1 - s) p_c \\
-        \end{array} 
-    \right.
-
-    $$
+Each individual is then a bernoulli random variable, $X_i$, with $P(X_i = 1) = sp_t$ and $P(X_i = -1) = (1-s)p_c$. 
 
 
 The sum, $S_k = \sum_{i=1}^k{X_i}$, is then a biased random walk. 
 
 Under $H_0$, $p_c = p_t$, so we can effectively estimate $S_k$ with bias $s$.
+
+
+
+
+
+
+
+ <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });</script>
