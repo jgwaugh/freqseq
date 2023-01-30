@@ -35,5 +35,10 @@ $$S_k = \sum_{i=1}^k{X_i}$$
 
 Under $H_0$, $p_c = p_t$, so we can effectively estimate $S_k$ with bias $s$.
 
+Note that the following is an unbiased random walk:
+
+$$ \tilde{S_k} = \sum_{i=1}^k{X_i} - k(2s -1) $$
+
+As $X_i$ follows a  $Bernoulli(s)$ distribution. 
 
 
