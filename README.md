@@ -12,7 +12,7 @@ Suppose we are running a random experiment to determine the efficacy of some int
 
 ### Random Walk
 
-We construct a sequential test using a random walk. More specifically, suppose we have to groups, $C$ and $T$, or control and treatment. We assign individuals to $C$ with probability $ 1- s$ and individuals to $T$ with probability $s$. 
+We construct a sequential test using a random walk. More specifically, suppose we have to groups, $C$ and $T$, or control and treatment. We assign individuals to $C$ with probability $1- s$ and individuals to $T$ with probability $s$. 
 
 Individuals in each group "convert" (could mean they die, or they buy your product - whatever the context) with rates $p_c$ and $p_t$. 
 
@@ -28,7 +28,10 @@ $$ H_1: p_c < p_t $$
 Each individual is then a bernoulli random variable, $X_i$, with $P(X_i = 1) = sp_t$ and $P(X_i = -1) = (1-s)p_c$. 
 
 
-The sum, $S_k = \sum_{i=1}^k{X_i}$, is then a biased random walk. 
+
+$$S_k = \sum_{i=1}^k{X_i}$$
+
+ is then a biased random walk. 
 
 Under $H_0$, $p_c = p_t$, so we can effectively estimate $S_k$ with bias $s$.
 
