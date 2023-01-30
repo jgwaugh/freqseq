@@ -88,7 +88,7 @@ To be more precise, the walk steps up under the event $Z_t  = 1 | Z_t + Z_c = 1$
 $$ p^* = P(Z_t = 1 | Z_t + Z_c = 1) = 
 \frac{P(Z_t + Z_c = 1 | Z_t = 1)P(Z_t = 1)}
 {P(Z_t + Z_c = 1)} = 
-\frac{p * p_t}{ p * p_t + (1 - p) * p_c}
+\frac{p * p_t}{ p * p_t + (1 - p) * p_c} $$
 
 
 
