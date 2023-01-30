@@ -24,7 +24,7 @@ and
 $$ H_1: p_c > p_t $$
 
 
-Each individual is then a bernoulli random variable, $X_i$, with $P(X_i = 1) = pp_t$ and $P(X_i = -1) = (1-p)p_c$. 
+Each individual is then a random variable, $X_i$, with $P(X_i = 1) = pp_t$ and $P(X_i = -1) = (1-p)p_c$. 
 
 
 
@@ -36,18 +36,16 @@ Note that the following is an unbiased random walk:
 
 $$ \tilde{S_k} = \sum_{i=1}^k{X_i} - k(2p -1) $$
 
-as $X_i$ follows a  $Bernoulli(p)$ distribution. 
-
 
 ### Test Statistic
 
-The test is defined by choosing a bound, $d$, and a number of conversions, $N$, such that the probability of the walk escaping the region under $H_0$ is less thatn $\alpha$ for some predefined false positive rate. 
+The test is defined by choosing a bound, $d$, and a number of conversions, $N$, such that the probability of the walk escaping the region under $H_0$ is less than $\alpha$ for some predefined false positive rate. 
 
 More specifically, define $r_{n, d}$ as
 
 $$ r_{n, d} = \frac{d}{n} {n \choose \frac{n + d}{2}} p ^ {\frac{n + d}{2}} (1 - p)^{\frac{n - d}{2}} $$
 
-$r_{n, d}$ is the probability of reaching $k$ for the very first time after $n$ iterations of the random walk. The basic idea is that this requires $d$ treatment conversions and then a balance of $\frac{n - d}{2}$ treatment converisons and $\frac{n - d}{2}$ control conversions (so a total of $\frac{n + d}{2}$ treatment conversions). The combinatorial handles the order and the term $\frac{d}{n}$ controls for the fact that only $\frac{d}{n}$ of the ${n \choose \frac{n + d}{2}}$ paths arrive at $k$ conversions at exactly time $n$. For more information, see Chapter 3 of [this book](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf).
+$r_{n, d}$ is the probability of reaching $d$ for the very first time after $n$ iterations of the random walk. The basic idea is that this requires $d$ treatment conversions and then a balance of $\frac{n - d}{2}$ treatment converisons and $\frac{n - d}{2}$ control conversions (so a total of $\frac{n + d}{2}$ treatment conversions). The combinatorial handles the order and the term $\frac{d}{n}$ controls for the fact that only $\frac{d}{n}$ of the ${n \choose \frac{n + d}{2}}$ paths arrive at $d$ conversions at exactly time $n$. For more information, see Chapter 3 of [this book](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf).
 
 Next, define $R_{N, d}$ as 
 
@@ -65,21 +63,21 @@ Then if $S_k$ crosses $d$ for any $k \leq N$, we reject $H_0$.
 
 There are an infinite number of pairs $(N, d)$ that satisfy the significance equation. 
 
-We can the pair to use by adding the following constraint:
+We can choose the pair to use by adding the following constraint:
 
 $$ P(S_k > d, k \leq N | H_1)  > \beta$$
 
-Where $\beta$ is the probability of rejecting the null under the alternative hypothesis. 
+where $\beta$ is the probability of rejecting the null under the alternative hypothesis. 
 
 
-Under $H_1$, we need to solve for $p_c$ and $p_t$. For example, we want customers who take our drug to die at a 10% lower rate than customers in the control group. First, specify some minimum amount to detect, $\delta$. We can then write 
+Under $H_1$, we need to solve for $p_c$ and $p_t$. For example, we may believe that customers who take some drug will die at a 10% lower rate than customers in a control group. First, specify some minimum effect size to detect, $\delta$. We can then write 
 
 $$ p_t = (1 - \delta)p_c$$
 
 $S_k$ steps up when a conversion takes place in the treatment group. $S_k$ only steps in *either* direction when a conversion takes place. If at time $t$, a customer is assigned to the control group and does **not** convert, the walk does not move. Thus, group assignement **and** conversion rate dictate how the walk moves. 
 
 
-Define $Y \sim Bernoulli(p)$ indicating assignment to treatment or control. Define $Z_t \sim Bernoulli(p * p_t)$  and $Z_c \sim Bernoulli((1-p)p_c)$. $Z_t$ and $Z_c$ correspond to conversion in the treatment and control groups, respectively. 
+Define $Y \sim Bernoulli(p)$ indicating assignment to treatment or control. Define $Z_t \sim Bernoulli(pp_t)$  and $Z_c \sim Bernoulli((1-p)p_c)$. $Z_t$ and $Z_c$ correspond to conversion in the treatment and control groups, respectively. 
 
 
 To be more precise, the walk steps up under the event $Z_t  = 1 | Z_t + Z_c = 1$. The probability of this event occuring, $p^*$, is defined as 
@@ -118,7 +116,7 @@ $$ \sum_{n= 1}^N\frac{d}{n} {n \choose \frac{n + d}{2}} (\frac{p ( 1-\delta)}{1 
 
 Since $E[X_i] = 2p -1 $, the walk does not move along the origin. Instead, it travels along $i(2p - 1)$. 
 
-This means that $d$ cannot be parallel, but must also move in parellel to the walk (corrected for bias). 
+This means that $d$ cannot be parallel to the origin but must also move in parellel to the walk (corrected for bias). 
 
 
 ### Case 1:  $p_t > p_c$
@@ -137,4 +135,4 @@ We care about when the walk crosses the *lower bound*, so we define our constrai
 
 ## Two sided Test
 
-For a two sided test, use Evan's assumption that, for large value's of $d$, the probability of reaching $d$ or $-d$ is the sum of both probabilities. Constraints will then need to depend on two values of $d$ - one for $p_c < p_t$ and one for $p_c > p_t$. This is room for later work and will probably require some nifty code optimization. 
+For a two sided test, use Evan's assumption that, for large value's of $d$, the probability of reaching $d$ or $-d$ is the sum of both probabilities. Constraints will then need to depend on two values of $d$ - one for $p_c < p_t$ and one for $p_c > p_t$. This is left for later work and will probably require some nifty code optimization. 
