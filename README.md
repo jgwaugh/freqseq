@@ -12,9 +12,9 @@ Suppose we are running a random experiment to determine the efficacy of some int
 
 ### Random Walk
 
-We construct a sequential test using a random walk. More specifically, suppose we have to groups, $C$ and $T$, or control and treatment. We assign individuals to $C$ with probability $1- p$ and individuals to $T$ with probability $p$. 
+We construct a sequential test using a random walk. More specifically, suppose we have two groups, $C$ and $T$, or control and treatment. We assign individuals to $C$ with probability $1- p$ and individuals to $T$ with probability $p$. 
 
-Individuals in each group "convert" (could mean they die, or they buy your product - whatever the context) with rates $p_c$ and $p_t$. 
+Individuals in each group "convert" with rates $p_c$ and $p_t$. 
 
 We are interested in 
 
@@ -22,7 +22,7 @@ $$ H_0 : p_c = p_t $$
 
 and 
 
-$$ H_1: p_c < p_t $$
+$$ H_1: p_c > p_t $$
 
 
 Each individual is then a bernoulli random variable, $X_i$, with $P(X_i = 1) = pp_t$ and $P(X_i = -1) = (1-p)p_c$. 
@@ -73,9 +73,22 @@ $$ P(S_k > d, k \leq N | H_1)  > \beta$$
 Where $\beta$ is the probability of rejecting the null under the alternative hypothesis. 
 
 
-Under $H_1$, we need to solve for $p_c$ and $p_t$. First, specify some minimum amount to detect, $\delta$. We can then write 
+Under $H_1$, we need to solve for $p_c$ and $p_t$. For example, we want customers who take our drug to die at a 10% lower rate than customers in the control group. First, specify some minimum amount to detect, $\delta$. We can then write 
 
 $$ p_t = (1 - \delta)p_c$$
 
-For example, we want customers who take our drug to die at a 10% lower rate than customers in the control group. 
+$S_k$ steps up when a conversion takes place in the treatment group. $S_k$ only steps in *either* direction when a conversion takes place. If at time $t$, a customer is assigned to the control group and does **not** convert, the walk does not move. Thus, group assignement **and** conversion rate dictate how the walk moves. 
+
+
+Define $Y \sim Bernoulli(p)$ indicating assignment to treatment or control. Define $Z_t \sim Bernoulli(p * p_t)$  and $Z_c \sim Bernoulli((1-p)p_c)$. $Z_t$ and $Z_c$ correspond to conversion in the treatment and control groups, respectively. 
+
+
+To be more precise, the walk steps up under the event $Z_t  = 1 | Z_t + Z_c = 1$. The probability of this event occuring, $p^*$, is defined as 
+
+$$ p^* = P(Z_t = 1 | Z_t + Z_c = 1) = 
+\frac{P(Z_t + Z_c = 1 | Z_t = 1)P(Z_t = 1)}
+{P(Z_t + Z_c = 1)} = 
+\frac{p * p_t}{ p * p_t + (1 - p) * p_c}
+
+
 
