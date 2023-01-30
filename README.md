@@ -37,9 +37,3 @@ Under $H_0$, $p_c = p_t$, so we can effectively estimate $S_k$ with bias $s$.
 
 
 
-
-
-
-
- <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script type="text/x-mathjax-config"> MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });</script>
