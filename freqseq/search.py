@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.special import betaln
 
+MAX_BARRIER = 5000
 MAX_CONVERSIONS = 800000
 
 
@@ -57,7 +58,7 @@ def search_for_barrier(
             null_cdf += prefix * np.exp(
                 -lbeta_k + (k - z) * log_null_1_p + k * log_null_p
             )
-            alt_cdf += prefix * np.exp(-lbeta_k + (k - z) * log_alt_p + k * log_alt_1_p)
+            alt_cdf += prefix * np.exp(-lbeta_k + (k - z) * log_alt_1_p + k * log_alt_p)
 
             if np.isnan(null_cdf) | np.isnan(alt_cdf):
                 break
@@ -82,3 +83,63 @@ def search_for_barrier(
             z = z_low + 2 * np.floor((z_high - z_low) / 4)
 
     return z
+
+def get_conversions_for_specified_barrier(
+        z : int,
+        alpha: float,
+        power_level: float,
+        null_p : float,
+        alt_p : float
+) -> int:
+    """
+    Iterates through conversion bounds ("N" from the notes) to find minimum
+    conversion bound for a specified barrier (z) that meets given power and significance
+    constraints
+
+    Parameters
+    ----------
+    z: int
+        Cutoff barrier for test
+    alpha: float
+        Significance constraint
+    power_level: float
+        Power constraint
+    null_p: float
+        Positive conversion rate under H_0
+    alt_p: float
+        Positive conversion rate under H_1
+
+    Returns
+    -------
+    int
+        The max number of conversions for the test satisfying power/significance/barrier constraints
+
+    """
+
+    null_cdf = 0
+    alt_cdf = 0
+
+    log_null_p = np.log(null_p)
+    log_null_1_p = np.log(1 - null_p)
+
+    log_alt_p = np.log(alt_p)
+    log_alt_1_p = np.log(1 - alt_p)
+
+    for n in range(z, MAX_CONVERSIONS, 2):
+        k = 0.5 * (n + z)
+
+        prefix = z / n / k
+        lbeta_k = betaln(k, n + 1 - k)
+
+        null_cdf += prefix * np.exp(
+            -lbeta_k + (k - z) * log_null_1_p + k * log_null_p
+        )
+        alt_cdf += prefix * np.exp(-lbeta_k + (k - z) * log_alt_1_p + k * log_alt_p)
+
+        if np.isnan(null_cdf) | np.isnan(alt_cdf):
+            return np.nan
+        if (alt_cdf > power_level):
+            if null_cdf < alpha:
+                return n
+
+        return np.nan
