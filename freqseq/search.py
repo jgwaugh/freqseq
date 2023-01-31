@@ -51,8 +51,11 @@ def search_for_barrier(
     while z_low < z_high:
         null_cdf = 0
         alt_cdf = 0
+        old_low = z_low
+        old_high = z_high
 
-        for n in range(z, MAX_CONVERSIONS + 1, 2):
+        for n in range(int(z), MAX_CONVERSIONS + 1, 1000):
+
             k = 0.5 * (n + z)
             prefix = z / n / k
             lbeta_k = betaln(k, n + 1 - k)
@@ -75,14 +78,14 @@ def search_for_barrier(
             elif null_cdf > alpha:
                 z_low = z + 2
 
-            if (np.isnan(null_cdf)) | (np.isnan(alt_cdf)) | (n >= MAX_CONVERSIONS):
-                print("NaN...")
-                break
-
-            print(
-                f"High: {z_high}, Low: {z_low}, Z: {Z}, null: {null_cdf}, alt: {alt_cdf}"
-            )
-            z = z_low + 2 * np.floor((z_high - z_low) / 4)
+        if (np.isnan(null_cdf)) | (np.isnan(alt_cdf)) | (n >= MAX_CONVERSIONS):
+            print("NaN...")
+            break
+        print(
+            f"High: {z_high}, Low: {z_low}, Z: {z}, null: {null_cdf}, alt: {alt_cdf}"
+        )
+        #import ipdb; ipdb.set_trace()
+        z = z_low + 2 * np.floor((z_high - z_low) / 4)
 
     return z
 
@@ -124,7 +127,7 @@ def get_conversions_for_specified_barrier(
     log_alt_p = np.log(alt_p)
     log_alt_1_p = np.log(1 - alt_p)
 
-    for n in range(z, MAX_CONVERSIONS, 2):
+    for n in range(int(z), MAX_CONVERSIONS, 2):
         k = 0.5 * (n + z)
 
         prefix = z / n / k
