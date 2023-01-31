@@ -18,7 +18,6 @@ To do this, define $k  = \frac{n + d}{2}$.
 Then, we have 
 
 $$ \frac{d}{n} \frac{n!}{(n - k!)k!} \space p^{k} q^{n-k}  = 
-
 \frac{d}{nk} \frac{n!}{(n - k)!(k - 1)!} \space p^{k} q^{n-k}
 $$
 
