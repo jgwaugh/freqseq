@@ -1,6 +1,6 @@
 # Frequentist Sequential Testing
 
-These notes give a derivation of a testing approach for one sided frequentist sequential testing where treatment assignment is biased. Again, credit for the proof in the unbiased case goes to [Evan Miller](https://www.evanmiller.org/sequential-ab-testing.html#notes). My work here dives into a bit more detail in the math (I neeed to work through it to trust it) and covers the biased case. 
+These notes give a derivation of an approach for one sided frequentist sequential testing where treatment assignment is biased. Again, credit for the proof in the unbiased case goes to [Evan Miller](https://www.evanmiller.org/sequential-ab-testing.html#notes). My work here dives into a bit more detail in the math (I neeed to work through it to trust it) and covers the biased case. 
 
 Excuse the royal we. Old habits die hard, and it just plain sounds better. 
 
@@ -30,7 +30,7 @@ Each individual is then a random variable, $X_i$, with $P(X_i = 1) = pp_t$ and $
 
 $$S_k = \sum_{i=1}^k{X_i}$$
 
- is then a biased random walk. Under $H_0$, $p_c = p_t$, so we can effectively estimate $S_k$ with bias $s$.
+ is then a biased random walk. Under $H_0$, $p_c = p_t$, so we can effectively estimate $S_k$ with bias $p$.
 
 Note that the following is an unbiased random walk:
 
