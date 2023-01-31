@@ -7,7 +7,7 @@
 
 ## Problem
 
-Suppose we are running a random experiment to determine the efficacy of some intervention. We would like to end this experiment early if results look promising without "peaking" (peaking incurs bias by effectively testing multiple hypotheses). 
+Suppose we are running a random experiment to determine the efficacy of some intervention. We would like to end this experiment early if results look promising without "peeking" (peeking incurs bias by effectively testing multiple hypotheses). 
 
 What we want here is a **sequential test**, a test that allows for early stopping if results look promising without incurring a heightened false positive rate. 
 
