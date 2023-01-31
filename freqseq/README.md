@@ -42,3 +42,5 @@ This package uses unit tests seeded with outputs from Evan's app.
 
 Unbiased assignment and different effect sizes will be tested using simulation,
 which is relatively cheap in numpy. 
+
+To test, simply run `pytest` in the command line.
