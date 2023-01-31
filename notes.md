@@ -45,7 +45,7 @@ More specifically, define $r_{n, d}$ as
 
 $$ r_{n, d} = \frac{d}{n} {n \choose \frac{n + d}{2}} p ^ {\frac{n + d}{2}} (1 - p)^{\frac{n - d}{2}} $$
 
-$r_{n, d}$ is the probability of reaching $d$ for the very first time after $n$ iterations of the random walk. The basic idea is that this requires $d$ treatment conversions and then a balance of $\frac{n - d}{2}$ treatment converisons and $\frac{n - d}{2}$ control conversions (so a total of $\frac{n + d}{2}$ treatment conversions). The combinatorial handles the order and the term $\frac{d}{n}$ controls for the fact that only $\frac{d}{n}$ of the ${n \choose \frac{n + d}{2}}$ paths arrive at $d$ conversions at exactly time $n$. For more information, see Chapter 3 of [this book](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf).
+$r_{n, d}$ is the probability of reaching $d$ for the very first time after $n$ iterations of the random walk. The basic idea is that this requires $d$ treatment conversions and then a balance of $\frac{n - d}{2}$ treatment converisons and $\frac{n - d}{2}$ control conversions (so a total of $\frac{n + d}{2}$ treatment conversions). The combinatorial handles the number of arrangements and the term $\frac{d}{n}$ controls for the fact that only $\frac{d}{n}$ of the ${n \choose \frac{n + d}{2}}$ paths arrive at $d$ conversions at exactly time $n$. For more information, see Chapter 3 of [this book](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf).
 
 Next, define $R_{N, d}$ as 
 
@@ -121,14 +121,14 @@ This means that $d$ cannot be parallel to the origin but must also move in parel
 
 ### Case 1:  $p_t > p_c$
 
-Here, $d$  becomes $d(n) = n(2p + 1) + d$. For ease of 
+Here, $d$  becomes $d(n) = n(2p - 1) + d$. For ease of 
 computation, take the integer part of this number. For sufficeintly large experiments, this won't impact the results too much. Further work should study how the change in coordinate system impacts test behavior. 
 
 We care about when the walk crosses the *upper bound*, so we define our constraints based on $\frac{n + d(n)}{2}$ conversions in the **treatment group**. 
 
 ### Case 2: $p_t < p_c$
 
-Here, $d$  becomes $d(n) = n(2p + 1) - d$.
+Here, $d$  becomes $d(n) = n(2p - 1) - d$.
 
 We care about when the walk crosses the *lower bound*, so we define our constraints based on $\frac{n + d(n)}{2}$ conversions in the **control group**. 
 
