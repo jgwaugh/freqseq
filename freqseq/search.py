@@ -1,7 +1,7 @@
+from typing import Tuple
+
 import numpy as np
 from scipy.special import betaln
-
-from typing import Tuple
 
 MAX_BARRIER = 5000
 MAX_CONVERSIONS = 800000
@@ -141,11 +141,9 @@ def get_conversions_for_specified_barrier(
 
         return np.nan
 
+
 def get_test_constraints(
-        alpha: float,
-        power_level: float,
-        null_p: float,
-        alternative_p: float
+    alpha: float, power_level: float, null_p: float, alternative_p: float
 ) -> Tuple[int, int]:
     """
     Computes test boundaries for given constraints
@@ -168,15 +166,21 @@ def get_test_constraints(
 
     """
 
+    best_odd_z = search_for_barrier(
+        1, MAX_BARRIER, alpha, power_level, null_p, alternative_p
+    )
+    best_even_z = search_for_barrier(
+        2, MAX_BARRIER + 1, alpha, power_level, null_p, alternative_p
+    )
 
-    best_odd_z = search_for_barrier(1, MAX_BARRIER, alpha, power_level, null_p, alternative_p)
-    best_even_z = search_for_barrier(2, MAX_BARRIER + 1, alpha, power_level, null_p, alternative_p)
-
-    odd_n = get_conversions_for_specified_barrier(best_odd_z, alpha, power_level, null_p, alternative_p)
-    even_n = get_conversions_for_specified_barrier(best_even_z, alpha, power_level, null_p, alternative_p)
+    odd_n = get_conversions_for_specified_barrier(
+        best_odd_z, alpha, power_level, null_p, alternative_p
+    )
+    even_n = get_conversions_for_specified_barrier(
+        best_even_z, alpha, power_level, null_p, alternative_p
+    )
 
     if np.isnan(odd_n) | (even_n < odd_n):
         return even_n, best_even_z
     else:
         return odd_n, best_odd_z
-
