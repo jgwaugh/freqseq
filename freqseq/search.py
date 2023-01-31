@@ -84,12 +84,9 @@ def search_for_barrier(
 
     return z
 
+
 def get_conversions_for_specified_barrier(
-        z : int,
-        alpha: float,
-        power_level: float,
-        null_p : float,
-        alt_p : float
+    z: int, alpha: float, power_level: float, null_p: float, alt_p: float
 ) -> int:
     """
     Iterates through conversion bounds ("N" from the notes) to find minimum
@@ -131,14 +128,12 @@ def get_conversions_for_specified_barrier(
         prefix = z / n / k
         lbeta_k = betaln(k, n + 1 - k)
 
-        null_cdf += prefix * np.exp(
-            -lbeta_k + (k - z) * log_null_1_p + k * log_null_p
-        )
+        null_cdf += prefix * np.exp(-lbeta_k + (k - z) * log_null_1_p + k * log_null_p)
         alt_cdf += prefix * np.exp(-lbeta_k + (k - z) * log_alt_1_p + k * log_alt_p)
 
         if np.isnan(null_cdf) | np.isnan(alt_cdf):
             return np.nan
-        if (alt_cdf > power_level):
+        if alt_cdf > power_level:
             if null_cdf < alpha:
                 return n
 
