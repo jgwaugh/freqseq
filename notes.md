@@ -122,7 +122,7 @@ This means that $d$ cannot be parallel to the origin but must also move in parel
 ### Case 1:  $p_t > p_c$
 
 Here, $d$  becomes $d(n) = n(2p - 1) + d$. For ease of 
-computation, take the integer part of this number. For sufficeintly large experiments, this won't impact the results too much. Further work should study how the change in coordinate system impacts test behavior. 
+computation, take the integer part of this number. For sufficeintly large experiments, this won't impact the results too much. Further work should study how this approximation impacts test behavior. 
 
 We care about when the walk crosses the *upper bound*, so we define our constraints based on $\frac{n + d(n)}{2}$ conversions in the **treatment group**.
 
