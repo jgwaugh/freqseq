@@ -14,24 +14,13 @@ What we want here is a **sequential test**, a test that allows for early stoppin
 
 ## Install
 
-This package was written with [poetry](https://python-poetry.org/docs/). 
-
-`python 3.9.10` was used. I set my local `python` version with [`asdf`](https://asdf-vm.com/guide/getting-started.html).
-
-I initially hit some `poetry` issues where my environment defaulted to my 
-machine's `python3` version, and not the one in the `asdf` environement. 
-
-Here is the hack that worked for me 
-
-```commandline
-PYTHON_PATH=$(python -c 'import sys; print(sys.executable)')
-poetry env use $PYTHON_PATH
-```
+Modeling and code development was done in `conda` with `python 3.9.12`. 
 
 ## Repo Contents
 
-1. `notes.md` - a derivation of the testing appraoch
-2. `freqseq` - a `python` package containing implementation of the testing strategy (to be added)
+1. `notes.md` - a derivation of the testing approach
+2. `examples.py` - code for generating the examples used in the notes
+3. `freqseq` - a `python` package containing implementation of the testing strategy (to be added)
 
 
 **Note: this is a working branch and development is under progress, hence some missing code**

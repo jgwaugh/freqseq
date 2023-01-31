@@ -124,13 +124,25 @@ This means that $d$ cannot be parallel to the origin but must also move in parel
 Here, $d$  becomes $d(n) = n(2p - 1) + d$. For ease of 
 computation, take the integer part of this number. For sufficeintly large experiments, this won't impact the results too much. Further work should study how the change in coordinate system impacts test behavior. 
 
-We care about when the walk crosses the *upper bound*, so we define our constraints based on $\frac{n + d(n)}{2}$ conversions in the **treatment group**. 
+We care about when the walk crosses the *upper bound*, so we define our constraints based on $\frac{n + d(n)}{2}$ conversions in the **treatment group**.
+
+![alt text](images/p_0.4_delta_-0.1_random_walk.png)
+
+In this example image, a "negative" version of $\delta$ corresponds to 
+$p_t > p_c$ since in my code, $p_t = (1 - \delta)p_c$. Observe how the walk drifts downwards, but is biased upwards
+as it moves around its expected value. 
 
 ### Case 2: $p_t < p_c$
 
 Here, $d$  becomes $d(n) = n(2p - 1) - d$.
 
 We care about when the walk crosses the *lower bound*, so we define our constraints based on $\frac{n + d(n)}{2}$ conversions in the **control group**. 
+
+![alt text](images/p_0.6_delta_0.1_random_walk.png)
+
+In this example, a positive value of $\delta$ means that $p_t < p_c$. Observe
+how the walk drifts upwards, but is biased downwards around its expected value. 
+
 
 
 ## Two sided Test
