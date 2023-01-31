@@ -4,7 +4,7 @@ import numpy as np
 from scipy.special import betaln
 
 MAX_BARRIER = 5000
-MAX_CONVERSIONS = 800000
+MAX_CONVERSIONS = 80000
 
 
 def search_for_barrier(
@@ -51,10 +51,9 @@ def search_for_barrier(
     while z_low < z_high:
         null_cdf = 0
         alt_cdf = 0
-        old_low = z_low
-        old_high = z_high
 
-        for n in range(int(z), MAX_CONVERSIONS + 1, 1000):
+        for n in range(int(z), MAX_CONVERSIONS + 1, 2):
+
 
             k = 0.5 * (n + z)
             prefix = z / n / k
@@ -125,7 +124,9 @@ def get_conversions_for_specified_barrier(
     log_alt_p = np.log(alt_p)
     log_alt_1_p = np.log(1 - alt_p)
 
-    for n in range(int(z), MAX_CONVERSIONS, 2):
+    #import ipdb; ipdb.set_trace()
+
+    for n in range(int(z), MAX_CONVERSIONS + 1, 2):
         k = 0.5 * (n + z)
 
         prefix = z / n / k
@@ -140,7 +141,8 @@ def get_conversions_for_specified_barrier(
             if null_cdf < alpha:
                 return n
 
-        return np.nan
+
+    return np.nan
 
 
 def get_test_constraints(

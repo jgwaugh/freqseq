@@ -33,10 +33,12 @@ $$
 
 Since `scipy` has [log beta](https://docs.scipy.org/doc/scipy/reference/generated/scipy.special.betaln.html) functions built in, we can decompose the right hand side with a logorithm. 
 
-
 ## Testing
 
-Normally, I would test this against Evan's web app and write some `pytest`
-code. However, I'm fairly sure he has a minor mistake in his approximation
-of $r_{n,d}$. Testing is left to the `streamlit` application where I use 
-simulation to estimate power and significance. 
+[Evan's web app](https://www.evanmiller.org/ab-testing/sequential.html) only 
+tests positive effects in the treatment group with equal assignment. 
+
+This package uses unit tests seeded with outputs from Evan's app. 
+
+Unbiased assignment and different effect sizes will be tested using simulation,
+which is relatively cheap in numpy. 
