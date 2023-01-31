@@ -129,7 +129,7 @@ We care about when the walk crosses the *upper bound*, so we define our constrai
 ![alt text](images/p_0.4_delta_-0.1_random_walk.png)
 
 In this example image, a "negative" version of $\delta$ corresponds to 
-$p_t > p_c$ since in my code, $p_t = (1 - \delta)p_c$. Observe how the walk drifts downwards, but is biased upwards
+$p_t > p_c$ since in my code, $p_t = (1 - \delta)p_c$. Observe how the walk drifts downwards but is biased upwards
 as it moves around its expected value. 
 
 ### Case 2: $p_t < p_c$
@@ -141,7 +141,7 @@ We care about when the walk crosses the *lower bound*, so we define our constrai
 ![alt text](images/p_0.6_delta_0.1_random_walk.png)
 
 In this example, a positive value of $\delta$ means that $p_t < p_c$. Observe
-how the walk drifts upwards, but is biased downwards around its expected value. 
+how the walk drifts upwards but is biased downwards around its expected value. 
 
 
 
