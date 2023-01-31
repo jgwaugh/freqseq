@@ -81,10 +81,8 @@ def search_for_barrier(
         if (np.isnan(null_cdf)) | (np.isnan(alt_cdf)) | (n >= MAX_CONVERSIONS):
             print("NaN...")
             break
-        print(
-            f"High: {z_high}, Low: {z_low}, Z: {z}, null: {null_cdf}, alt: {alt_cdf}"
-        )
-        #import ipdb; ipdb.set_trace()
+        print(f"High: {z_high}, Low: {z_low}, Z: {z}, null: {null_cdf}, alt: {alt_cdf}")
+        # import ipdb; ipdb.set_trace()
         z = z_low + 2 * np.floor((z_high - z_low) / 4)
 
     return z
