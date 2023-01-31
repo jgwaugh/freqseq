@@ -1,5 +1,7 @@
 # Notes
 
+**NOTE: CURRENTLY ONLY SUPPORTS UNBIASED TREATMENT ASSIGNMENT**
+
 The code for this is based on [Evan's online calculator](
     https://www.evanmiller.org/ab-testing/sequential.html
 ). 
@@ -30,3 +32,11 @@ $$ \frac{d}{n k} \frac{n!}{(n - k!)(k - 1)!} \space p ^ {k} q^{n-k}
 $$
 
 Since `scipy` has [log beta](https://docs.scipy.org/doc/scipy/reference/generated/scipy.special.betaln.html) functions built in, we can decompose the right hand side with a logorithm. 
+
+
+## Testing
+
+Normally, I would test this against Evan's web app and write some `pytest`
+code. However, I'm fairly sure he has a minor mistake in his approximation
+of $r_{n,d}$. Testing is left to the `streamlit` application, where I use 
+simulation to estimate power and significance. 
