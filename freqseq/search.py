@@ -54,14 +54,16 @@ def search_for_barrier(
 
         for n in range(int(z), MAX_CONVERSIONS + 1, 2):
 
-            k = 0.5 * (n + z)
-            prefix = z / n / k
+            # handle bias - null
+            z_use = int(z + n * (2 * null_p - 1))
+
+            k = 0.5 * (n + z_use)
+
+            prefix = z_use / n / k
             lbeta_k = betaln(k, n + 1 - k)
 
-            null_cdf += prefix * np.exp(
-                -lbeta_k + (k - z) * log_null_1_p + k * log_null_p
-            )
-            alt_cdf += prefix * np.exp(-lbeta_k + (k - z) * log_alt_1_p + k * log_alt_p)
+            null_cdf += prefix * np.exp(-lbeta_k + (k - z_use) * log_null_1_p + k * log_null_p)
+            alt_cdf += prefix * np.exp(-lbeta_k + (k - z_use) * log_alt_1_p + k * log_alt_p)
 
             if np.isnan(null_cdf) | np.isnan(alt_cdf):
                 break
@@ -123,16 +125,18 @@ def get_conversions_for_specified_barrier(
     log_alt_p = np.log(alt_p)
     log_alt_1_p = np.log(1 - alt_p)
 
-    # import ipdb; ipdb.set_trace()
-
     for n in range(int(z), MAX_CONVERSIONS + 1, 2):
-        k = 0.5 * (n + z)
 
-        prefix = z / n / k
+        # handle bias - null
+        z_use = int(z + n * (2 * null_p - 1))
+
+        k = 0.5 * (n + z_use)
+
+        prefix = z_use / n / k
         lbeta_k = betaln(k, n + 1 - k)
 
-        null_cdf += prefix * np.exp(-lbeta_k + (k - z) * log_null_1_p + k * log_null_p)
-        alt_cdf += prefix * np.exp(-lbeta_k + (k - z) * log_alt_1_p + k * log_alt_p)
+        null_cdf += prefix * np.exp(-lbeta_k + (k - z_use) * log_null_1_p + k * log_null_p)
+        alt_cdf += prefix * np.exp(-lbeta_k + (k - z_use) * log_alt_1_p + k * log_alt_p)
 
         if np.isnan(null_cdf) | np.isnan(alt_cdf):
             return np.nan
