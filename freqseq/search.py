@@ -62,8 +62,12 @@ def search_for_barrier(
             prefix = z_use / n / k
             lbeta_k = betaln(k, n + 1 - k)
 
-            null_cdf += prefix * np.exp(-lbeta_k + (k - z_use) * log_null_1_p + k * log_null_p)
-            alt_cdf += prefix * np.exp(-lbeta_k + (k - z_use) * log_alt_1_p + k * log_alt_p)
+            null_cdf += prefix * np.exp(
+                -lbeta_k + (k - z_use) * log_null_1_p + k * log_null_p
+            )
+            alt_cdf += prefix * np.exp(
+                -lbeta_k + (k - z_use) * log_alt_1_p + k * log_alt_p
+            )
 
             if np.isnan(null_cdf) | np.isnan(alt_cdf):
                 break
@@ -135,7 +139,9 @@ def get_conversions_for_specified_barrier(
         prefix = z_use / n / k
         lbeta_k = betaln(k, n + 1 - k)
 
-        null_cdf += prefix * np.exp(-lbeta_k + (k - z_use) * log_null_1_p + k * log_null_p)
+        null_cdf += prefix * np.exp(
+            -lbeta_k + (k - z_use) * log_null_1_p + k * log_null_p
+        )
         alt_cdf += prefix * np.exp(-lbeta_k + (k - z_use) * log_alt_1_p + k * log_alt_p)
 
         if np.isnan(null_cdf) | np.isnan(alt_cdf):
