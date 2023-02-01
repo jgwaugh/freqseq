@@ -1,14 +1,10 @@
 import numpy as np
-
 from numpy.typing import NDArray
 
 RowVector = NDArray
 
-def simulate_walk(
-        p_success: float,
-        N: int,
-        J: int
-) -> NDArray:
+
+def simulate_walk(p_success: float, N: int, J: int) -> NDArray:
     """
     Simulates a random walk with probability of stepping up `p_success`
 
@@ -31,12 +27,9 @@ def simulate_walk(
 
     return walk
 
+
 def get_barrier_crossing_rate(
-        p_success: float,
-        N: int,
-        d: RowVector,
-        J: int,
-        crosses_upper: bool= True
+    p_success: float, N: int, d: RowVector, J: int, crosses_upper: bool = True
 ) -> float:
     """
     Simulates a random walk and returns the number of times it crosses the barrier
@@ -65,16 +58,13 @@ def get_barrier_crossing_rate(
 
     """
 
-    walk = simulate_walk()
+    walk = simulate_walk(p_success, N, J)
 
     if crosses_upper:
         crosses = (walk >= d).astype(int)
     else:
         crosses = (walk <= d).astype(int)
     return np.mean(crosses.argmax(axis=1) != 0)
-
-
-
 
 
 def get_p_sucess(p: float, delta: float) -> float:
@@ -98,6 +88,3 @@ def get_p_sucess(p: float, delta: float) -> float:
     """
 
     return p * (1 + delta) / (1 + p * delta)
-
-
-
