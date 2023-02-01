@@ -1,8 +1,6 @@
 import pytest
 
 from freqseq import get_test_constraints
-
-
 from freqseq.hypothesis import get_p_sucess
 
 """
@@ -13,7 +11,6 @@ Note that Evan's online app is only for positive lift with unbiased
 treatment probability - need to use simulation on top of this to 
 handle the other cases. 
 """
-
 
 
 @pytest.mark.parametrize(
