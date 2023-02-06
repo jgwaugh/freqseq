@@ -46,7 +46,7 @@ This is easy to understand visually. When $p  = \frac{1}{2}$, this region would 
 
 ![alt text](images/walk_without_bias.png)
 
-When $ p \neq \frac{1}{2}$, as is the case here, this problem becomes more difficult. 
+When $p \neq \frac{1}{2}$, as is the case here, this problem becomes more difficult. 
 
 Naively, if we were to use to use the same value of $d$, we would get a non functional test due to the bias in the walk, as seen below. 
 
@@ -54,9 +54,7 @@ Naively, if we were to use to use the same value of $d$, we would get a non func
 
 The walk now moves upwards with a positive equal to expectation under $H_0$. 
 
-One solution is to use, instead of $d$, $d(n) = d + n(2p-1)$. 
-
-This would look something like this:
+One solution is to use, instead of $d$, $d(n) = d + n(2p-1)$. This would look something like this:
 
 ![alt text](images/walk_with_bias.png)
 
@@ -75,15 +73,29 @@ $$ r_{n, d} = \frac{d}{n} {n \choose \frac{n + d}{2}} p ^ {\frac{n + d}{2}} (1 -
 
 $r_{n, d}$ is the probability of reaching $d$ for the very first time after $n$ iterations of the random walk. The basic idea is that this requires $d$ treatment conversions and then a balance of $\frac{n - d}{2}$ treatment converisons and $\frac{n - d}{2}$ control conversions (so a total of $\frac{n + d}{2}$ treatment conversions). 
 
-The term $\frac{d}{n} {n \choose \frac{n + d}{2}}$ comes from a clever argument using the [relection principle](https://www.uvm.edu/~sdaysmer/files/ballottheoremfinal.pdf) which can be read [here](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf)-  the key idea is that the probability of a walk at time $N$ and positiion $ k < d$ having a maximum value of $d$ is the same as the probaiblity of a walk reaching the point $2d - k$ because we can construct an injective mapping of paths that cross $d$ and reach $k$, and paths that cross $d$ and reach $2d-k$, by multiplying the signs of steps by $-1$. **Importantly, if the rejection region now becomes $d(n) = n(2p - 1)$, the symmetric arguments no longer hold up
+The term $\frac{d}{n} {n \choose \frac{n + d}{2}}$ comes from a clever argument using the [relection principle](https://www.uvm.edu/~sdaysmer/files/ballottheoremfinal.pdf) which can be read [here](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf)-  the key idea is that the probability of a walk at time $N$ and positiion $k < d$ having a maximum value of $d$ is the same as the probaiblity of a walk reaching the point $2d - k$ because we can construct an injective mapping of paths that cross $d$ and reach $k$, and paths that cross $d$ and reach $2d-k$, by multiplying the signs of steps by $-1$. **Importantly, if the rejection barrier now becomes $d(n) = n(2p - 1) + d$, the reflection principle based symmetric arguments no longer hold up because the walk must now remain under a sloped, not a straight, line.**
 
-The combinatorial handles the number of arrangements and the term $\frac{d}{n}$ controls for the fact that only $\frac{d}{n}$ of the ${n \choose \frac{n + d}{2}}$ paths arrive at $d$ conversions at exactly time $n$. For more information, see Chapter 3 of [this book](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf).
+In this case, we know that
+
+$$ r_{n, d} < \frac{d(n)}{n} {n \choose \frac{n + d(n)}{2}} p ^ {\frac{n + d(n)}{2}} (1 - p)^{\frac{n - d(n)}{2}} $$
+
+since the number of paths below the sloped line is less than the number of paths below the horizontal line. Take the integer part of $d(n)$ for this to make sense. It is not exact, but the approximation works out. 
+
+At this point in time, I've yet to solve for $r_{n,d}$ exactly. This is an ongoing effort, although a bit of a black hole. However, it is possible to approximate the term by adding a hyperparamter, $\theta$, which I tune using a [bayesian search](https://scikit-optimize.github.io/stable/modules/generated/skopt.gp_minimize.html) calibrated using simulations. See the code for more details.
+
+Thus, we can call 
+
+$$ r_{n, d} = \theta \frac{d(n)}{n} {n \choose \frac{n + d(n)}{2}} p ^ {\frac{n + d(n)}{2}} (1 - p)^{\frac{n - d(n)}{2}} $$
+
+where $\theta = 1$ if $p = \frac{1}{2}$. Note that $\forall \space n < \frac{d}{2 - 2p}, \space r_{n, d} = 0$ since the first possible boundary crossing occurs when the line $y = x$ intersects $y = d + 2(p-1)x$. 
 
 Next, define $R_{N, d}$ as 
 
 $$ R_{N, d} = \sum_{n = 1} ^Nr_{n, d} $$
 
 This is the probabilty of escaping the boundary $d$ in less than $N$ iterations. 
+
+
 
 We can then choose $N$ and $d$ such that for some $\alpha$, 
 
@@ -99,7 +111,7 @@ There are an infinite number of pairs $(N, d)$ that satisfy the significance equ
 
 We can choose the pair to use by adding the following constraint:
 
-$$ P(S_k > d, k \leq N | H_1)  > \beta$$
+$$ P(S_k > d(k), k \leq N | H_1)  > \beta$$
 
 where $\beta$ is the probability of rejecting the null under the alternative hypothesis. 
 
@@ -108,10 +120,10 @@ Under $H_1$, we need to solve for $p_c$ and $p_t$. For example, we may believe t
 
 $$ p_t = (1 - \delta)p_c$$
 
-$S_k$ steps up when a conversion takes place in the treatment group. $S_k$ only steps in *either* direction when a conversion takes place. If at time $t$, a customer is assigned to the control group and does **not** convert, the walk does not move. Thus, group assignement **and** conversion rate dictate how the walk moves. 
+$S_k$ steps up when a conversion takes place in the treatment group. $S_k$ only steps in *either* direction when a conversion takes place. If at time $k$, a customer is assigned to the control group and does **not** convert, the walk does not move. Thus, group assignement **and** conversion rate dictate how the walk moves. 
 
 
-Define $Y \sim Bernoulli(p)$ indicating assignment to treatment or control. Define $Z_t \sim Bernoulli(pp_t)$  and $Z_c \sim Bernoulli((1-p)p_c)$. $Z_t$ and $Z_c$ correspond to conversion in the treatment and control groups, respectively. 
+ Define $Z_t \sim Bernoulli(pp_t)$  and $Z_c \sim Bernoulli((1-p)p_c)$. $Z_t$ and $Z_c$ correspond to conversion in the treatment and control groups, respectively. 
 
 
 To be more precise, the walk steps up under the event $Z_t  = 1 | Z_t + Z_c = 1$. The probability of this event occuring, $p^*$, is defined as 
@@ -138,12 +150,12 @@ and $1 - p^* = \frac{1 - p} {1+ p\delta}$
 
 Thus, the equations to optimize become 
 
-$$ \sum_{n= 1}^N\frac{d}{n} {n \choose \frac{n + d}{2}} p ^ {\frac{n + d}{2}} (1 - p)^{\frac{n - d}{2}} < \alpha$$
+$$ \theta \sum_{n= 1}^N\frac{d(n)}{n} {n \choose \frac{n + d(n)}{2}} p ^ {\frac{n + d(n)}{2}} (1 - p)^{\frac{n - d(n)}{2}} < \alpha$$
 
 and 
 
 
-$$ \sum_{n= 1}^N\frac{d}{n} {n \choose \frac{n + d}{2}} (\frac{p ( 1-\delta)}{1 - p\delta}) ^ {\frac{n + d}{2}} (\frac{1 - p}{1 - p\delta})^{\frac{n - d}{2}} > \beta$$
+$$ \theta \sum_{n= 1}^N\frac{d(n)}{n} {n \choose \frac{n + d(n)}{2}} (\frac{p ( 1-\delta)}{1 - p\delta}) ^ {\frac{n + d(n)}{2}} (\frac{1 - p}{1 - p\delta})^{\frac{n - d(n)}{2}} > \beta$$
 
 
 ## Bias in the Walk
