@@ -2,7 +2,7 @@
 
 These notes give a derivation of an approach for one sided frequentist sequential testing where treatment assignment is biased. Again, credit for the proof in the unbiased case goes to [Evan Miller](https://www.evanmiller.org/sequential-ab-testing.html#notes). My work here dives into a bit more detail in the math (I neeed to work through it to trust it) and covers the biased case. 
 
-Excuse the royal we. Old habits die hard, and it just plain sounds better. 
+Excuse the royal we. Old habits die hard. 
 
 ### Goal
 
@@ -39,13 +39,45 @@ $$ \tilde{S_k} = \sum_{i=1}^k{X_i} - k(2p -1) $$
 
 ### Test Statistic
 
-The test is defined by choosing a bound, $d$, and a number of conversions, $N$, such that the probability of the walk escaping the region under $H_0$ is less than $\alpha$ for some predefined false positive rate. 
+The test is defined by choosing a barrier, $d$, and a number of conversions, $N$, such that the probability of the walk escaping the region under $H_0$ is less than $\alpha$ for some predefined false positive rate. 
 
-More specifically, define $r_{n, d}$ as
+
+This is easy to understand visually. When $p  = \frac{1}{2}$, this region would look something like this 
+
+![alt text](images/walk_without_bias.png)
+
+When $ p \neq \frac{1}{2}$, as is the case here, this problem becomes more difficult. 
+
+Naively, if we were to use to use the same value of $d$, we would get a non functional test due to the bias in the walk, as seen below. 
+
+![alt text](images/walk_with_bias_naive.png)
+
+The walk now moves upwards with a positive equal to expectation under $H_0$. 
+
+One solution is to use, instead of $d$, $d(n) = d + n(2p-1)$. 
+
+This would look something like this:
+
+![alt text](images/walk_with_bias.png)
+
+Now, instead of creating a region based on the probability of $S_n < d$, we define a region based on the probability of $S_n < d(n)$. 
+
+
+Two important points emerge here:
+1. The walk that moves through the new coordinate system is not biased anymore, but it steps up in different step sizes than it steps down. It is not trivial to find the probability of $S_n$ escaping the region in this paradigm.
+2. Since the walk is now biased, the argument that Evan Miller cites, as seen on pages 88-89 of [this book](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf), does not hold up anymore. This makes an analytic solution challenging at the moment, although a part of me believes it is still solveable. 
+
+
+
+To construct the test region, define $r_{n, d}$ as
 
 $$ r_{n, d} = \frac{d}{n} {n \choose \frac{n + d}{2}} p ^ {\frac{n + d}{2}} (1 - p)^{\frac{n - d}{2}} $$
 
-$r_{n, d}$ is the probability of reaching $d$ for the very first time after $n$ iterations of the random walk. The basic idea is that this requires $d$ treatment conversions and then a balance of $\frac{n - d}{2}$ treatment converisons and $\frac{n - d}{2}$ control conversions (so a total of $\frac{n + d}{2}$ treatment conversions). The combinatorial handles the number of arrangements and the term $\frac{d}{n}$ controls for the fact that only $\frac{d}{n}$ of the ${n \choose \frac{n + d}{2}}$ paths arrive at $d$ conversions at exactly time $n$. For more information, see Chapter 3 of [this book](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf).
+$r_{n, d}$ is the probability of reaching $d$ for the very first time after $n$ iterations of the random walk. The basic idea is that this requires $d$ treatment conversions and then a balance of $\frac{n - d}{2}$ treatment converisons and $\frac{n - d}{2}$ control conversions (so a total of $\frac{n + d}{2}$ treatment conversions). 
+
+The term $\frac{d}{n} {n \choose \frac{n + d}{2}}$ comes from a clever argument using the [relection principle](https://www.uvm.edu/~sdaysmer/files/ballottheoremfinal.pdf) which can be read [here](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf)-  the key idea is that the probability of a walk at time $N$ and positiion $ k < d$ having a maximum value of $d$ is the same as the probaiblity of a walk reaching the point $2d - k$ because we can construct an injective mapping of paths that cross $d$ and reach $k$, and paths that cross $d$ and reach $2d-k$, by multiplying the signs of steps by $-1$. **Importantly, if the rejection region now becomes $d(n) = n(2p - 1)$, the symmetric arguments no longer hold up
+
+The combinatorial handles the number of arrangements and the term $\frac{d}{n}$ controls for the fact that only $\frac{d}{n}$ of the ${n \choose \frac{n + d}{2}}$ paths arrive at $d$ conversions at exactly time $n$. For more information, see Chapter 3 of [this book](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf).
 
 Next, define $R_{N, d}$ as 
 
@@ -58,6 +90,8 @@ We can then choose $N$ and $d$ such that for some $\alpha$,
 $$ R_{N, d} < \alpha $$
 
 Then if $S_k$ crosses $d$ for any $k \leq N$, we reject $H_0$. 
+
+
 
 ### Power
 
