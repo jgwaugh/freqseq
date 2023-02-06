@@ -5,7 +5,7 @@ from scipy.special import betaln
 
 MAX_BARRIER = 5000
 MAX_CONVERSIONS = 80000
-
+AREA_RATIO = 0.175
 
 def search_for_barrier(
     z_low: int,
@@ -52,14 +52,15 @@ def search_for_barrier(
         null_cdf = 0
         alt_cdf = 0
 
-        for n in range(int(z), MAX_CONVERSIONS + 1, 2):
+        first_n = int(z / (2 - 2 * null_p))
+        for n in range(first_n, MAX_CONVERSIONS + 1, 2):
 
             # handle bias - null
             z_use = int(z + n * (2 * null_p - 1))
-
+            area_ratio = AREA_RATIO
             k = 0.5 * (n + z_use)
 
-            prefix = z_use / n / k
+            prefix = z_use / n / k * area_ratio
             lbeta_k = betaln(k, n + 1 - k)
 
             null_cdf += prefix * np.exp(
@@ -83,10 +84,9 @@ def search_for_barrier(
                 z_low = z + 2
 
         if (np.isnan(null_cdf)) | (np.isnan(alt_cdf)) | (n >= MAX_CONVERSIONS):
-            print("NaN...")
+            #print("NaN...")
             break
-        print(f"High: {z_high}, Low: {z_low}, Z: {z}, null: {null_cdf}, alt: {alt_cdf}")
-        # import ipdb; ipdb.set_trace()
+        #print(f"High: {z_high}, Low: {z_low}, Z: {z}, null: {null_cdf}, alt: {alt_cdf}")
         z = z_low + 2 * np.floor((z_high - z_low) / 4)
 
     return z
@@ -129,14 +129,16 @@ def get_conversions_for_specified_barrier(
     log_alt_p = np.log(alt_p)
     log_alt_1_p = np.log(1 - alt_p)
 
-    for n in range(int(z), MAX_CONVERSIONS + 1, 2):
+    first_n = int(z / (2 - 2 * null_p))
+    for n in range(first_n, MAX_CONVERSIONS + 1, 2):
 
         # handle bias - null
         z_use = int(z + n * (2 * null_p - 1))
 
         k = 0.5 * (n + z_use)
+        area_ratio = AREA_RATIO
 
-        prefix = z_use / n / k
+        prefix = z_use / n / k * area_ratio
         lbeta_k = betaln(k, n + 1 - k)
 
         null_cdf += prefix * np.exp(
