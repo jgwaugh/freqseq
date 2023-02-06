@@ -5,7 +5,7 @@ from scipy.special import betaln
 
 MAX_BARRIER = 5000
 MAX_CONVERSIONS = 80000
-AREA_RATIO = 0.175
+AREA_RATIO = 1  # 0.175
 
 
 def search_for_barrier(
