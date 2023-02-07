@@ -151,7 +151,7 @@ We can then choose $N$ and $d$ such that for some $\alpha$,
 
 $$ R_{N, d} < \alpha $$
 
-Then if $S_i' = \sum_{i=1}^N \frac{X_i - i(2p -1)}{\sigma}$ crosses $d$ for any $k \leq N$, we reject $H_0$. 
+Then if $S_i' = \sum_{i= \leq N} \frac{X_i - i(2p -1)}{\sigma}$ crosses $d$ for any $k \leq N$, we reject $H_0$. 
 
 
 
@@ -198,7 +198,7 @@ $$p' = \frac{p(1 + \delta)}{1 +  p\delta}$$
 
 and $1 - p'= \frac{1 - p} {1+ p\delta}$
 
-**This is the same $p'$ from earlier; with it, solve for $\mu$ and note that the walk has bias that can be approximated as $p^* = \frac{\mu + 1}{2}$ under $H_1$.**
+This is the same $p'$ from earlier; with it, solve for $\mu$ and note that the walk has bias that can be approximated as $p^* = \frac{\mu + 1}{2}$ under $H_1$.
 
 Thus, the equations to optimize become 
 
