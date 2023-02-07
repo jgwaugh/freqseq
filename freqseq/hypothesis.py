@@ -75,9 +75,9 @@ def get_barrier_crossing_rate(
 
     walk = simulate_walk(p_success, N, J)
 
-    if not isinstance(mu, type(None)):
+    if isinstance(mu, type(None)):
         mu = np.zeros(N)
-    if not isinstance(sigma, type(None)):
+    if isinstance(sigma, type(None)):
         sigma = 1
 
     walk = (walk - mu) / sigma
