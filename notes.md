@@ -70,7 +70,7 @@ $$cos\theta = \frac{1}{\sqrt{(2p - 1)^2 + 1}}$$
 
 Then, if the walk moves from $(x, y)$  to $(x + 1, y+ 1)$, 
 
-it travles the following distance towards $y = (2p - 1)x + d$:
+it travels the following distance towards $y = (2p - 1)x + d$:
 
 $$ d_0 - d_1$$
 
