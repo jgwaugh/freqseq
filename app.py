@@ -1,59 +1,33 @@
-import matplotlib.pyplot as plt
-import numpy as np
+from skopt import gp_minimize
 
-from freqseq import get_test_constraints
-from freqseq.hypothesis import (
-    compute_transformed_walk_parameters,
-    get_barrier_crossing_rate,
-    get_p_sucess,
-    simulate_walk,
+from freqseq.calibration import build_test, objective_function
+
+p = 0.13
+delta = -0.1
+alpha = 0.05
+beta = 0.8
+
+
+def error_function(x):
+    return objective_function(p, delta, alpha, beta, x[0], x[1])
+
+
+alpha_min = alpha / 20
+alpha_max = min(1, 6 * alpha)
+beta_min = beta - beta / 8
+beta_max = min(1, beta + beta / 8)
+
+res = gp_minimize(
+    error_function,
+    [(alpha_min, alpha_max), (beta_min, beta_max)],
+    x0=[alpha, beta],
+    n_calls=20,
+    random_state=777,
+    verbose=True,
 )
 
-# parameters
-p = 0.1
-delta = 0.8
-# assert delta < 1/p - 2
-J = 5000
-p_success = get_p_sucess(p, delta)
-
-p_star, sigma = compute_transformed_walk_parameters(p, delta)
-
-print(f"modified probabiliy value is {p_star}")
-
-N, d = get_test_constraints(0.15, 0.88, 0.5, p_star)
-print(f"the original (N, d) is {(N, d)}")
-print(f"modified probabiliy value is {p_star}")
+best_alpha = res.x[0]
+best_beta = res.x[1]
 
 
-print(f"the new N is {N}")
-print(f"the new d is {d}")
-
-d_0 = [d] * N
-
-
-X = np.array(list(range(N)))
-expectation = X * (2 * p - 1)
-
-
-fpr = get_barrier_crossing_rate(p, N, d, J, mu=expectation, sigma=sigma)
-tpr = get_barrier_crossing_rate(p_success, N, d, J, mu=expectation, sigma=sigma)
-
-
-print(f"True Positives: {tpr}")
-print(f"False Positives: {fpr}")
-
-
-walks = simulate_walk(p_success, N, 5)
-
-
-f = plt.figure(dpi=100)
-plt.title("Rejection Region With Bias")
-plt.plot(X, d_0, label="d")
-plt.plot(X, X * (2 * p_star - 1), label="E[X]")
-
-for j in range(len(walks)):
-    plt.plot(X, (walks[j, :] - expectation) / sigma)
-
-plt.legend()
-plt.show()
-# f.savefig("images/walk_with_bias.png")
+best_results = build_test(p, delta, best_alpha, best_beta)

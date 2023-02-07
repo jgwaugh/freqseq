@@ -109,7 +109,12 @@ def get_p_sucess(p: float, delta: float) -> float:
 
     """
 
-    return p * (1 + delta) / (1 + p * delta)
+    p_prime = p * (1 + delta) / (1 + p * delta)
+
+    if delta > 0:
+        return p_prime
+    else:
+        return 1 - p_prime
 
 
 def compute_transformed_walk_parameters(p: float, delta: float) -> Tuple[float]:
@@ -135,7 +140,13 @@ def compute_transformed_walk_parameters(p: float, delta: float) -> Tuple[float]:
 
     """
 
+
+
+
     p_success = get_p_sucess(p, delta)
+
+    if delta < 0:
+        p = 1 - p
 
     w = 2 * p - 1
     v = 2 * p_success - 1
