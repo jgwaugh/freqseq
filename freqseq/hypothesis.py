@@ -1,4 +1,4 @@
-from typing import Optional, Union, Tuple
+from typing import Optional, Tuple, Union
 
 import numpy as np
 from numpy.typing import NDArray
@@ -112,10 +112,7 @@ def get_p_sucess(p: float, delta: float) -> float:
     return p * (1 + delta) / (1 + p * delta)
 
 
-def compute_transformed_walk_parameters(
-            p:float,
-            delta: float
-    ) -> Tuple[float]:
+def compute_transformed_walk_parameters(p: float, delta: float) -> Tuple[float]:
     """
     For given treatment probability p and effect size delta,
     computes the parameters p_star (p_tilde from the notes) and sigma,
@@ -143,7 +140,7 @@ def compute_transformed_walk_parameters(
     w = 2 * p - 1
     v = 2 * p_success - 1
 
-    sigma = 1 - v ** 2 + (v - w) ** 2
+    sigma = 1 - v**2 + (v - w) ** 2
     sigma = sigma ** (1 / 2)
     u = (v - w) / sigma
     p_star = (u + 1) / 2
