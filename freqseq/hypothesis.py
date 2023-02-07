@@ -1,7 +1,7 @@
+from typing import Optional
+
 import numpy as np
 from numpy.typing import NDArray
-
-from typing import Optional
 
 RowVector = NDArray
 
@@ -31,10 +31,13 @@ def simulate_walk(p_success: float, N: int, J: int) -> NDArray:
 
 
 def get_barrier_crossing_rate(
-    p_success: float, N: int, d: RowVector, J: int,
-        mu: Optional[RowVector]  = None,
-        sigma: Optional[float] = None,
-        crosses_upper: bool = True
+    p_success: float,
+    N: int,
+    d: RowVector,
+    J: int,
+    mu: Optional[RowVector] = None,
+    sigma: Optional[float] = None,
+    crosses_upper: bool = True,
 ) -> float:
     """
     Simulates a random walk and returns the number of times it crosses the barrier
