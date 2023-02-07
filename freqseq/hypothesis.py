@@ -140,9 +140,6 @@ def compute_transformed_walk_parameters(p: float, delta: float) -> Tuple[float]:
 
     """
 
-
-
-
     p_success = get_p_sucess(p, delta)
 
     if delta < 0:

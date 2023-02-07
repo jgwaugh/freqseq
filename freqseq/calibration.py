@@ -52,7 +52,6 @@ def build_test(
     if np.isnan(N) or np.isnan(d):
         return np.nan, np.nan, np.nan, 5, 5
 
-
     if delta < 0:
         p = 1 - p
 
@@ -63,7 +62,6 @@ def build_test(
     tpr = get_barrier_crossing_rate(p_success, N, d, J, mu=expectation, sigma=sigma)
 
     print(fpr, tpr)
-
 
     return N, d, sigma, fpr, tpr
 
