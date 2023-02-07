@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 import numpy as np
 from numpy.typing import NDArray
@@ -33,7 +33,7 @@ def simulate_walk(p_success: float, N: int, J: int) -> NDArray:
 def get_barrier_crossing_rate(
     p_success: float,
     N: int,
-    d: RowVector,
+    d: Union[RowVector, float],
     J: int,
     mu: Optional[RowVector] = None,
     sigma: Optional[float] = None,
@@ -75,9 +75,9 @@ def get_barrier_crossing_rate(
 
     walk = simulate_walk(p_success, N, J)
 
-    if not mu:
+    if not isinstance(mu, type(None)):
         mu = np.zeros(N)
-    if not sigma:
+    if not isinstance(sigma, type(None)):
         sigma = 1
 
     walk = (walk - mu) / sigma
