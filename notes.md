@@ -151,7 +151,7 @@ We can then choose $N$ and $d$ such that for some $\alpha$,
 
 $$ R_{N, d} < \alpha $$
 
-Then if $S_i' = \sum_{i= \leq N} \frac{X_i - i(2p -1)}{\sigma}$ crosses $d$ for any $k \leq N$, we reject $H_0$. 
+Then if $S_k' = \sum_{i= \leq k} \frac{X_i - i(2p -1)}{\sigma}$ crosses $d$ for any $k \leq N$, we reject $H_0$. 
 
 
 
@@ -161,7 +161,7 @@ There are an infinite number of pairs $(N, d)$ that satisfy the significance equ
 
 We can choose the pair to use by adding the following constraint:
 
-$$ P(S_i' > i, k \leq N | H_1)  > \beta$$
+$$ P(S_k' > d, k \leq N | H_1)  > \beta$$
 
 where $\beta$ is the probability of rejecting the null under the alternative hypothesis. 
 
