@@ -213,48 +213,10 @@ $$ \sum_{n= 1}^N\frac{d}{n} {n \choose \frac{n + d}{2}} (p^*)^ {\frac{n + d}{2}}
 
 For large $p$, $\alpha$ and $\beta$ may need to be recalibrated. 
 
-## Impossible regions
-
-There are some values of $p$ and $\delta$ that make finding a solution impossible. If $p > \frac{1}{2}$ and $\delta > 0$, then we always have a solution because the bias lifts the walk upwards and closer to the barrier. The same holds for the case when $p < \frac{1}{2}$ and $\delta < 0$ by symmetry. 
-
-However, when $p > \frac{1}{2}$ and $\delta < 0$, the problem becomes more challenging. 
 
 
 
 
-## Bias in the Walk
+### When $\delta < 0$
 
-Since $E[X_i] = 2p -1 $, the walk does not move along the origin. Instead, it travels along $i(2p - 1)$. 
-
-This means that $d$ cannot be parallel to the origin but must also move in parellel to the walk (corrected for bias). 
-
-
-### Case 1:  $p_t > p_c$
-
-Here, $d$  becomes $d(n) = n(2p - 1) + d$. For ease of 
-computation, take the integer part of this number. For sufficeintly large experiments, this won't impact the results too much. Further work should study how this approximation impacts test behavior. 
-
-We care about when the walk crosses the *upper bound*, so we define our constraints based on $\frac{n + d(n)}{2}$ conversions in the **treatment group**.
-
-![alt text](images/p_0.4_delta_-0.1_random_walk.png)
-
-In this example image, a "negative" version of $\delta$ corresponds to 
-$p_t > p_c$ since in my code, $p_t = (1 - \delta)p_c$. Observe how the walk drifts downwards but is biased upwards
-as it moves around its expected value. 
-
-### Case 2: $p_t < p_c$
-
-Here, $d$  becomes $d(n) = n(2p - 1) - d$.
-
-We care about when the walk crosses the *lower bound*, so we define our constraints based on $\frac{n + d(n)}{2}$ conversions in the **control group**. 
-
-![alt text](images/p_0.6_delta_0.1_random_walk.png)
-
-In this example, a positive value of $\delta$ means that $p_t < p_c$. Observe
-how the walk drifts upwards but is biased downwards around its expected value. 
-
-
-
-## Two sided Test
-
-For a two sided test, use Evan's assumption that, for large value's of $d$, the probability of reaching $d$ or $-d$ is the sum of both probabilities. Constraints will then need to depend on two values of $d$ - one for $p_c < p_t$ and one for $p_c > p_t$. This is left for later work and will probably require some nifty code optimization. 
+If $\delta < 0$, switch $p$ and $1 - p$ - the problem is now symmtric to $\delta > 0$. 
