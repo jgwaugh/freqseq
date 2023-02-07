@@ -17,7 +17,7 @@ def get_test_results(p, delta, alpha, beta):
     def error_function(x):
         return objective_function(p, delta, alpha, beta, x[0], x[1])
 
-    alpha_min = alpha / 20
+    alpha_min = alpha / 40
     alpha_max = min(1, 6 * alpha)
     beta_min = beta - beta / 8
     beta_max = min(1, beta + beta / 8)
@@ -70,7 +70,7 @@ st.write(
 p = st.number_input(
     "Insert the probability of treatment",
     min_value=0.01,
-    max_value=0.99,
+    max_value=0.95,
     value=0.5,
 )
 
@@ -109,4 +109,4 @@ col1.metric("N", int(N))
 col2.metric("d", int(d))
 col3.metric("sigma", np.round(sigma, 3))
 col1.metric("Empirical false positive rate", np.round(fpr, 2))
-col2.metric("Empirical true positive Rate", np.round(tpr, 2))
+col2.metric("Empirical true positive rate", np.round(tpr, 2))

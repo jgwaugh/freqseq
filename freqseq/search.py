@@ -4,7 +4,7 @@ import numpy as np
 from scipy.special import betaln
 
 MAX_BARRIER = 5000
-MAX_CONVERSIONS = 80000
+MAX_CONVERSIONS = 800000
 AREA_RATIO = 1
 MAX_SEARCHES = 40
 
@@ -96,7 +96,7 @@ def search_for_barrier(
         ):
             # print("NaN...")
             break
-        # print(f"High: {z_high}, Low: {z_low}, Z: {z}, null: {null_cdf}, alt: {alt_cdf}")
+        #print(f"High: {z_high}, Low: {z_low}, Z: {z}, null: {null_cdf}, alt: {alt_cdf}")
         z = z_low + 2 * np.floor((z_high - z_low) / 4)
 
     return z
