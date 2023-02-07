@@ -63,6 +63,7 @@ st.write(
     $$ S' = (C - T - (T + C)(2(1 - p) -1)\sigma^{-1} $$
     
     If $T + C > N$ and $d$ has yet to be crossed, the test fails. 
+
     """
 )
 
@@ -98,6 +99,9 @@ N, d, sigma, fpr, tpr = get_test_results(p, delta, alpha, beta)
 st.write(
     """
 # Test Specifications
+
+Note that this app verifies the validity of the test by running simulations and presenting
+the empirical true and false positive rates. 
 """
 )
 col1, col2, col3 = st.columns(3)
