@@ -1,6 +1,6 @@
 # Frequentist Sequential Testing
 
-These notes give a derivation of an approach for one sided frequentist sequential testing where treatment assignment is biased. Again, credit for the proof in the unbiased case goes to [Evan Miller](https://www.evanmiller.org/sequential-ab-testing.html#notes). My work here dives into a bit more detail in the math (I neeed to work through it to trust it) and covers the biased case. 
+These notes give a derivation of an approach for one sided frequentist sequential testing where treatment assignment is biased. Again, credit for the proof in the unbiased case goes to [Evan Miller](https://www.evanmiller.org/sequential-ab-testing.html#notes). My work here dives into a bit more detail in the math (I needed to work through it to trust it) and covers the biased case. 
 
 Excuse the royal we. Old habits die hard. 
 
@@ -11,9 +11,7 @@ As discussed in the [README](README.md), the goal here is to allow early stoppin
 
 ### Random Walk
 
-We construct a sequential test using a random walk. More specifically, suppose we have two groups, $C$ and $T$, or control and treatment. We assign individuals to $C$ with probability $1- p$ and individuals to $T$ with probability $p$. 
-
-Individuals in each group "convert" with rates $p_c$ and $p_t$. 
+We construct a sequential test using a random walk. More specifically, suppose we have two groups, $C$ and $T$, or control and treatment. We assign individuals to $C$ with probability $1- p$ and individuals to $T$ with probability $p$. Individuals in each group "convert" with rates $p_c$ and $p_t$. 
 
 We are interested in 
 
@@ -95,10 +93,10 @@ $$ d_1 = cos\theta |(2p - 1)(x + 1)  - y + 1 + d|$$
 As $p \rightarrow \frac{1}{2}$, the distances approach $-1, +1$. **But as $p \rightarrow 1$, the walk now longer becomes symmetric. This means that any of Evan's derivations that assume a symmetric random walk are no longer valid and must be recalibrated using simulation modeling.**
 
 The test procedure is thus as follows:
-1. Define $Z = \frac{X - (2p - 1)}{\sigma}$ and define $Y \sim Bernoulli(\frac{\mu + 1}{2})$ such that $E[Y] = E[Z]$ and $Var(Y) = Var(Z)$. The idea is that $Y$ is a  bernoulli random variable that creates a random walk along the horizontal axis with the same mean and variance as $Z$, the random walk created by transforming the biased difference of treatment and control successes. **We are transforming our biased random walk to an unbiased random walk so we can use Evan's derivation.**
+1. Define $Z = \frac{X - (2p - 1)}{\sigma}$ and define $Y \sim Bernoulli(\frac{\mu + 1}{2})$ such that $E[Y] = E[Z]$ and $Var(Y) = Var(Z)$. The idea is that $Y$ is a  bernoulli random variable that creates a random walk along the horizontal axis with the same mean and variance as $Z$, the random walk created by transforming the biased difference of treatment and control successes. **We are transforming our biased random walk to an unbiased random walk asymmetrical random walk and then approximating that walk with a symmetrical random walk so we can use Evan's derivation.**
 2. Solve for $\mu$ and $\sigma$ using the fact that $E[X]$ and $Var(X)$ are known. 
 3. Use $Y$ in Evan's derivation. This will change the probaiblity of the walk moving under $H_1$. 
-3. Recalibrate results using [bayesian optimization](https://scikit-optimize.github.io/stable/modules/generated/skopt.gp_minimize.html) in order to satisfy power and significance constraints because for large $p$, the asymmetrical step sizes cause $S_k = \sum_{i = 1}^kX_k$ to no longer be a symmetrical random walk whereas $\sum_{i = 1}^kY_k$ will always be symmetrical.
+3. Recalibrate results using [bayesian optimization](https://scikit-optimize.github.io/stable/modules/generated/skopt.gp_minimize.html) in order to satisfy power and significance constraints because for large $p$, the asymmetrical step sizes cause $S_k = \sum_{i = 1}^k X_k$ to no longer be a symmetrical random walk whereas $\sum_{i = 1}^k Y_k$ will always be symmetrical.
 
 
 ### Solving for $\mu$ and $\sigma$
