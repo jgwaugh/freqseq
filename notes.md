@@ -36,6 +36,8 @@ Note that the following is an unbiased random walk:
 
 $$ \tilde{S_k} = \sum_{i=1}^k{X_i} - k(2p -1) $$
 
+since $E[X] = p - (1 - p) = 2p - 1$
+
 
 ### Test Statistic
 
@@ -52,7 +54,7 @@ Naively, if we were to use to use the same value of $d$, we would get a non func
 
 ![alt text](images/walk_with_bias_naive.png)
 
-The walk now moves upwards with a positive equal to expectation under $H_0$. 
+The walk now moves upwards with a positive equal to the expectation under $H_0$. 
 
 One solution is to use, instead of $d$, $d(n) = d + n(2p-1)$. This would look something like this:
 
@@ -156,6 +158,15 @@ and
 
 
 $$ \theta \sum_{n= 1}^N\frac{d(n)}{n} {n \choose \frac{n + d(n)}{2}} (\frac{p ( 1-\delta)}{1 - p\delta}) ^ {\frac{n + d(n)}{2}} (\frac{1 - p}{1 - p\delta})^{\frac{n - d(n)}{2}} > \beta$$
+
+
+## Impossible regions
+
+There are some values of $p$ and $\delta$ that make finding a solution impossible. If $p > \frac{1}{2}$ and $\delta > 0$, then we always have a solution because the bias lifts the walk upwards and closer to the barrier. The same holds for the case when $p < \frac{1}{2}$ and $\delta < 0$ by symmetry. 
+
+However, when $p > \frac{1}{2}$ and $\delta < 0$, the problem becomes more challenging. 
+
+
 
 
 ## Bias in the Walk
