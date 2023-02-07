@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import numpy as np
 
 from freqseq.hypothesis import (
@@ -7,16 +9,14 @@ from freqseq.hypothesis import (
 )
 from freqseq.search import get_test_constraints
 
-from typing import Tuple
-
 
 def build_test(
-        p: float,
-        delta: float,
-        alpha: float,
-        beta: float,
-        J: int = 5000,
-) -> Tuple[float,int]:
+    p: float,
+    delta: float,
+    alpha: float,
+    beta: float,
+    J: int = 5000,
+) -> Tuple[float, int]:
     """
 
     Builds the random walk statistical test and verifies its false positive

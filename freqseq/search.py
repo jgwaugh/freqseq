@@ -88,10 +88,15 @@ def search_for_barrier(
                 z_low = z + 2
 
         n_searches += 1
-        if (np.isnan(null_cdf)) | (np.isnan(alt_cdf)) | (n >= MAX_CONVERSIONS) | (n_searches >= MAX_SEARCHES):
+        if (
+            (np.isnan(null_cdf))
+            | (np.isnan(alt_cdf))
+            | (n >= MAX_CONVERSIONS)
+            | (n_searches >= MAX_SEARCHES)
+        ):
             # print("NaN...")
             break
-        #print(f"High: {z_high}, Low: {z_low}, Z: {z}, null: {null_cdf}, alt: {alt_cdf}")
+        # print(f"High: {z_high}, Low: {z_low}, Z: {z}, null: {null_cdf}, alt: {alt_cdf}")
         z = z_low + 2 * np.floor((z_high - z_low) / 4)
 
     return z
