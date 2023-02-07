@@ -1,6 +1,6 @@
 # Frequentist Sequential Testing
 
-These notes give a derivation of an approach for one sided frequentist sequential testing where treatment assignment is biased. Again, credit for the proof in the unbiased case goes to [Evan Miller](https://www.evanmiller.org/sequential-ab-testing.html#notes). My work here dives into a bit more detail in the math (I needed to work through it to trust it) and covers the biased case. 
+These notes give a derivation of an approach for one sided frequentist sequential testing where treatment assignment is biased. Again, credit for the proof in the unbiased case goes to [Evan Miller](https://www.evanmiller.org/sequential-ab-testing.html#notes). My work here dives into a bit more detail in the math (I needed to work through it to trust it) and covers the biased treatment case, which as you will see is not trivial. 
 
 Excuse the royal we. Old habits die hard. 
 

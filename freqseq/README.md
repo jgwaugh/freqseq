@@ -38,9 +38,6 @@ Since `scipy` has [log beta](https://docs.scipy.org/doc/scipy/reference/generate
 [Evan's web app](https://www.evanmiller.org/ab-testing/sequential.html) only 
 tests positive effects in the treatment group with equal assignment. 
 
-This package uses unit tests seeded with outputs from Evan's app. 
-
-Unbiased assignment and different effect sizes will be tested using simulation,
-which is relatively cheap in numpy. 
+This package uses unit tests seeded with outputs from Evan's app.
 
 To test, simply run `pytest` in the command line.
