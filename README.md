@@ -16,13 +16,15 @@ What we want here is a **sequential test**, a test that allows for early stoppin
 
 Modeling and code development was done in `conda` with `python 3.9.12`. 
 
+Requirements are stored in `requirements.txt`.
+
+To run the app, activate your `conda` environment, then run `streamlit run app.py`
+
 ## Repo Contents
 
 1. `notes.md` - a derivation of the testing approach
-2. `examples.py` - code for generating the examples used in the notes
+2. `app.py` - a `streamlit` app which generate test statistics for various input conditions. 
 3. `freqseq` - a `python` package containing implementation of the testing strategy (to be added)
 
-
-**Note: this is a working branch and development is under progress, hence some missing code**
 
 
