@@ -207,7 +207,7 @@ $$ \sum_{n= 1}^N\frac{d}{n} {n \choose \frac{n + d}{2}} p ^ {\frac{n + d}{2}} (1
 and 
 
 
-$$ \sum_{n= 1}^N\frac{d}{n} {n \choose \frac{n + d}{2}} p ^ {\frac{n + d}{2}} (1 - p^*)^{\frac{n - d}{2}} >\beta$$
+$$ \sum_{n= 1}^N\frac{d}{n} {n \choose \frac{n + d}{2}} (p^*)^{\frac{n + d}{2}} (1 - p^*)^{\frac{n - d}{2}} >\beta$$
 
 For large $p$, $\alpha$ and $\beta$ may need to be recalibrated. 
 
