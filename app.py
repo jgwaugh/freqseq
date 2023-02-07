@@ -1,10 +1,8 @@
+import numpy as np
+import streamlit as st
 from skopt import gp_minimize
 
-import numpy as np
-
 from freqseq.calibration import build_test, objective_function
-
-import streamlit as st
 
 
 @st.cache
@@ -15,6 +13,7 @@ def get_test_results(p, delta, alpha, beta):
 
     if initial_error <= 0.04:
         return N, d, sigma, fpr, tpr
+
     def error_function(x):
         return objective_function(p, delta, alpha, beta, x[0], x[1])
 
@@ -67,42 +66,43 @@ st.write(
     """
 )
 
-p = st.number_input('Insert the probability of treatment, $p$',
-                    min_value =0.01,
-                    max_value=0.99,
-                    value=0.5)
+p = st.number_input(
+    "Insert the probability of treatment, $p$",
+    min_value=0.01,
+    max_value=0.99,
+    value=0.5,
+)
 
-delta = st.slider('Insert the minimum detectable effect',
-                    min_value =-2.,
-                    max_value=2.,
-                    step = 0.1,
-                    value=0.3)
+delta = st.slider(
+    "Insert the minimum detectable effect",
+    min_value=-2.0,
+    max_value=2.0,
+    step=0.1,
+    value=0.3,
+)
 if delta == 0:
     raise ValueError(f"Delta cannot be equal to zero!")
 
-alpha = st.number_input('Insert the maximum false positive rate',
-                    min_value =0.0,
-                    max_value=1.0,
-                    value=0.05)
+alpha = st.number_input(
+    "Insert the maximum false positive rate", min_value=0.0, max_value=1.0, value=0.05
+)
 
-beta = st.number_input('Insert the minimum true positive rate',
-                    min_value =0.0,
-                    max_value=1.0,
-                    value=0.8)
-
+beta = st.number_input(
+    "Insert the minimum true positive rate", min_value=0.0, max_value=1.0, value=0.8
+)
 
 
 N, d, sigma, fpr, tpr = get_test_results(p, delta, alpha, beta)
 
 
-st.write("""
+st.write(
+    """
 # Test Specifications
-""")
+"""
+)
 col1, col2, col3 = st.columns(3)
 col1.metric("N", int(N))
 col2.metric("d", int(d))
 col3.metric("sigma", np.round(sigma, 3))
 col1.metric("Empirical false positive rate", np.round(fpr, 2))
 col2.metric("Empirical True Positive Rate", np.round(tpr, 2))
-
-
