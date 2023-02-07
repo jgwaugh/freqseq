@@ -68,7 +68,7 @@ st.write(
 )
 
 p = st.number_input(
-    "Insert the probability of treatment, $p$",
+    "Insert the probability of treatment",
     min_value=0.01,
     max_value=0.99,
     value=0.5,
@@ -109,4 +109,4 @@ col1.metric("N", int(N))
 col2.metric("d", int(d))
 col3.metric("sigma", np.round(sigma, 3))
 col1.metric("Empirical false positive rate", np.round(fpr, 2))
-col2.metric("Empirical True Positive Rate", np.round(tpr, 2))
+col2.metric("Empirical true positive Rate", np.round(tpr, 2))
