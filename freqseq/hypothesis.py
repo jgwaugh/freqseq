@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Optional, Union, Tuple
 
 import numpy as np
 from numpy.typing import NDArray
@@ -110,3 +110,42 @@ def get_p_sucess(p: float, delta: float) -> float:
     """
 
     return p * (1 + delta) / (1 + p * delta)
+
+
+def compute_transformed_walk_parameters(
+            p:float,
+            delta: float
+    ) -> Tuple[float]:
+    """
+    For given treatment probability p and effect size delta,
+    computes the parameters p_star (p_tilde from the notes) and sigma,
+    the probability of upwards movement in a symmetric unbiased walk
+    and the variance factor required to transform the biased walk
+    into a symmetric unbiased walk, respectively.
+    See the notes for more details.
+
+    Parameters
+    ----------
+    p: float
+        Probability of treatment assignment
+    delta: float
+        Minimum detectable effect size
+
+    Returns
+    -------
+    tuple
+        Unbiased upwards probabilty and variance
+
+    """
+
+    p_success = get_p_sucess(p, delta)
+
+    w = 2 * p - 1
+    v = 2 * p_success - 1
+
+    sigma = 1 - v ** 2 + (v - w) ** 2
+    sigma = sigma ** (1 / 2)
+    u = (v - w) / sigma
+    p_star = (u + 1) / 2
+
+    return p_star, sigma
