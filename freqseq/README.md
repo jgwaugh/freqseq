@@ -1,7 +1,5 @@
 # Notes
 
-**NOTE: CURRENTLY ONLY SUPPORTS UNBIASED TREATMENT ASSIGNMENT**
-
 The code for this is based on [Evan's online calculator](
     https://www.evanmiller.org/ab-testing/sequential.html
 ). 
