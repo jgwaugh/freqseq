@@ -110,3 +110,15 @@ col2.metric("d", int(d))
 col3.metric("sigma", np.round(sigma, 3))
 col1.metric("Empirical false positive rate", np.round(fpr, 2))
 col2.metric("Empirical true positive rate", np.round(tpr, 2))
+
+
+st.write(
+    """
+## Debugging
+
+If the app ever fails to find a solution, especially in a low lift / high bias scenario,
+increase `MAX_CONVERSIONS` in `freqseq/search.py`. The integration is probably not yielding results
+in the initial binary search which prevents the search from ever converging. This merits a fix at some point, but it 
+isn't that interesting. I'll leave it as an exercise for the reader..
+"""
+)
