@@ -20,6 +20,11 @@ Requirements are stored in `requirements.txt`.
 
 To run the app, activate your `conda` environment, then run `streamlit run app.py`
 
+The app should look something like this:
+
+![alt text](images/top_app.png)
+![alt text](images/bottom_app.png)
+
 ## Repo Contents
 
 1. `notes.md` - a derivation of the testing approach
