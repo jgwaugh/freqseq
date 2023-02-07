@@ -1,6 +1,8 @@
 import numpy as np
 from numpy.typing import NDArray
 
+from typing import Optional
+
 RowVector = NDArray
 
 
@@ -29,11 +31,17 @@ def simulate_walk(p_success: float, N: int, J: int) -> NDArray:
 
 
 def get_barrier_crossing_rate(
-    p_success: float, N: int, d: RowVector, J: int, crosses_upper: bool = True
+    p_success: float, N: int, d: RowVector, J: int,
+        mu: Optional[RowVector]  = None,
+        sigma: Optional[float] = None,
+        crosses_upper: bool = True
 ) -> float:
     """
     Simulates a random walk and returns the number of times it crosses the barrier
-    which can be used to compute the false positive and true positive rates
+    which can be used to compute the false positive and true positive rates.
+
+    mu and sigma refer to mean and variance parameters, which can be used
+    to reshape the walk.
 
 
     Parameters
@@ -59,6 +67,13 @@ def get_barrier_crossing_rate(
     """
 
     walk = simulate_walk(p_success, N, J)
+
+    if not mu:
+        mu = np.zeros(N)
+    if not sigma:
+        sigma = 1
+
+    walk = (walk - mu) / sigma
 
     if crosses_upper:
         crosses = (walk >= d).astype(int)
