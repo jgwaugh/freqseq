@@ -1,20 +1,19 @@
 import numpy as np
 
 from freqseq.hypothesis import (
-get_p_sucess,
-get_barrier_crossing_rate,
-compute_transformed_walk_parameters
+    compute_transformed_walk_parameters,
+    get_barrier_crossing_rate,
+    get_p_sucess,
 )
-
 from freqseq.search import get_test_constraints
 
 
 def objective_function(
-        p: float,
-        delta: float,
-        alpha: float,
-        beta: float,
-        J: int = 5000,
+    p: float,
+    delta: float,
+    alpha: float,
+    beta: float,
+    J: int = 5000,
 ) -> float:
     """
     For given treatment probability, minimum detect size, desired true positive rate,
@@ -45,18 +44,15 @@ def objective_function(
 
     p_star, sigma = compute_transformed_walk_parameters(p, delta)
 
-
     N, d = get_test_constraints(alpha, beta, 0.5, p_star)
 
     if np.isnan(N) or np.isnan(d):
         return 5
 
-
     X = np.arange(N)
     expectation = X * (2 * p - 1)
-
 
     fpr = get_barrier_crossing_rate(p, N, d, J, mu=expectation, sigma=sigma)
     tpr = get_barrier_crossing_rate(p_success, N, d, J, mu=expectation, sigma=sigma)
 
-    return (tpr - beta)**2 + (fpr - alpha)**2
+    return (tpr - beta) ** 2 + (fpr - alpha) ** 2
