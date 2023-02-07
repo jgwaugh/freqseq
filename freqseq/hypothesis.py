@@ -1,3 +1,5 @@
+from typing import Optional, Tuple, Union
+
 import numpy as np
 from numpy.typing import NDArray
 
@@ -29,11 +31,20 @@ def simulate_walk(p_success: float, N: int, J: int) -> NDArray:
 
 
 def get_barrier_crossing_rate(
-    p_success: float, N: int, d: RowVector, J: int, crosses_upper: bool = True
+    p_success: float,
+    N: int,
+    d: Union[RowVector, float],
+    J: int,
+    mu: Optional[RowVector] = None,
+    sigma: Optional[float] = None,
+    crosses_upper: bool = True,
 ) -> float:
     """
     Simulates a random walk and returns the number of times it crosses the barrier
-    which can be used to compute the false positive and true positive rates
+    which can be used to compute the false positive and true positive rates.
+
+    mu and sigma refer to mean and variance parameters, which can be used
+    to reshape the walk.
 
 
     Parameters
@@ -46,6 +57,10 @@ def get_barrier_crossing_rate(
         Row vector containing the boundary at a given number of conversions
     J: int
         The number of walks to simulate
+    mu : NDArray
+        Mean of the random walk as a function of conversions
+    sigma: float
+        Variance of the random walk as a function of conversions
     crosses_upper: bool
         Boolean indicating if the test ends when the walk goes above
         or below the boundary
@@ -59,6 +74,13 @@ def get_barrier_crossing_rate(
     """
 
     walk = simulate_walk(p_success, N, J)
+
+    if isinstance(mu, type(None)):
+        mu = np.zeros(N)
+    if isinstance(sigma, type(None)):
+        sigma = 1
+
+    walk = (walk - mu) / sigma
 
     if crosses_upper:
         crosses = (walk >= d).astype(int)
@@ -87,4 +109,48 @@ def get_p_sucess(p: float, delta: float) -> float:
 
     """
 
-    return p * (1 + delta) / (1 + p * delta)
+    p_prime = p * (1 + delta) / (1 + p * delta)
+
+    if delta > 0:
+        return p_prime
+    else:
+        return 1 - p_prime
+
+
+def compute_transformed_walk_parameters(p: float, delta: float) -> Tuple[float]:
+    """
+    For given treatment probability p and effect size delta,
+    computes the parameters p_star (p_tilde from the notes) and sigma,
+    the probability of upwards movement in a symmetric unbiased walk
+    and the variance factor required to transform the biased walk
+    into a symmetric unbiased walk, respectively.
+    See the notes for more details.
+
+    Parameters
+    ----------
+    p: float
+        Probability of treatment assignment
+    delta: float
+        Minimum detectable effect size
+
+    Returns
+    -------
+    tuple
+        Unbiased upwards probabilty and variance
+
+    """
+
+    p_success = get_p_sucess(p, delta)
+
+    if delta < 0:
+        p = 1 - p
+
+    w = 2 * p - 1
+    v = 2 * p_success - 1
+
+    sigma = 1 - v**2 + (v - w) ** 2
+    sigma = sigma ** (1 / 2)
+    u = (v - w) / sigma
+    p_star = (u + 1) / 2
+
+    return p_star, sigma

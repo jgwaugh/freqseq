@@ -6,6 +6,7 @@ from scipy.special import betaln
 MAX_BARRIER = 5000
 MAX_CONVERSIONS = 80000
 AREA_RATIO = 1
+MAX_SEARCHES = 40
 
 
 def search_for_barrier(
@@ -49,6 +50,8 @@ def search_for_barrier(
 
     z = z_low + 2 * np.floor((z_high - z_low) / 4)
 
+    n_searches = 0
+
     while z_low < z_high:
         null_cdf = 0
         alt_cdf = 0
@@ -84,10 +87,16 @@ def search_for_barrier(
             elif null_cdf > alpha:
                 z_low = z + 2
 
-        if (np.isnan(null_cdf)) | (np.isnan(alt_cdf)) | (n >= MAX_CONVERSIONS):
+        n_searches += 1
+        if (
+            (np.isnan(null_cdf))
+            | (np.isnan(alt_cdf))
+            | (n >= MAX_CONVERSIONS)
+            | (n_searches >= MAX_SEARCHES)
+        ):
             # print("NaN...")
             break
-        print(f"High: {z_high}, Low: {z_low}, Z: {z}, null: {null_cdf}, alt: {alt_cdf}")
+        # print(f"High: {z_high}, Low: {z_low}, Z: {z}, null: {null_cdf}, alt: {alt_cdf}")
         z = z_low + 2 * np.floor((z_high - z_low) / 4)
 
     return z
