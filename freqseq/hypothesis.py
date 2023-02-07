@@ -57,6 +57,10 @@ def get_barrier_crossing_rate(
         Row vector containing the boundary at a given number of conversions
     J: int
         The number of walks to simulate
+    mu : NDArray
+        Mean of the random walk as a function of conversions
+    sigma: float
+        Variance of the random walk as a function of conversions
     crosses_upper: bool
         Boolean indicating if the test ends when the walk goes above
         or below the boundary
