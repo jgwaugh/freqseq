@@ -28,7 +28,7 @@ The app should look something like this:
 ## Repo Contents
 
 1. `notes.md` - a derivation of the testing approach
-2. `app.py` - a `streamlit` app which generate test statistics for various input conditions. 
+2. `app.py` - a `streamlit` app which generates test statistics for various input conditions
 3. `freqseq` - a `python` package containing implementation of the testing strategy
 
 
