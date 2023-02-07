@@ -60,12 +60,74 @@ One solution is to use, instead of $d$, $d(n) = d + n(2p-1)$. This would look so
 
 ![alt text](images/walk_with_bias.png)
 
-Now, instead of creating a region based on the probability of $S_n < d$, we define a region based on the probability of $S_n < d(n)$. 
+
+This is clearly a random walk moving along the the axis of $y = x(2p -1)$. The question becomes, can we transform that random walk into one moving along the origin and then use Evan's derivation?
+
+### Caveat - Unequal Steps
+
+Consider the walk moving along $y = x(2p - 1)$. Define $\theta$ as the angle that the line makes with $y=0$. In this case, 
+
+$$cos\theta = \frac{1}{\sqrt{(2p - 1)^2 + 1}}$$
 
 
-Two important points emerge here:
-1. The walk that moves through the new coordinate system is not biased anymore, but it steps up in different step sizes than it steps down. It is not trivial to find the probability of $S_n$ escaping the region in this paradigm.
-2. Since the walk is now biased, the argument that Evan Miller cites, as seen on pages 88-89 of [this book](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf), does not hold up anymore. This makes an analytic solution challenging at the moment, although a part of me believes it is still solveable. 
+Then, if the walk moves from $(x, y)$  to $(x + 1, y+ 1)$, 
+
+it travles the following distance towards $y = (2p - 1)x + d$:
+
+$$ d_0 - d_1$$
+
+where 
+    $$d_0 = cos\theta |(2p - 1)x - y + d|  $$
+
+and 
+
+$$ d_1 = cos\theta |(2p - 1)(x + 1)  - y - 1 + d|$$
+
+
+If the walk steps downwards, it travels a distance of 
+
+$$ d_1 - d_0$$
+
+where now 
+
+$$ d_1 = cos\theta |(2p - 1)(x + 1)  - y + 1 + d|$$
+
+As $p \rightarrow \frac{1}{2}$, the distances approach $-1, +1$. **But as $p \rightarrow 1$, the walk now longer becomes symmetric. This means that any of Evan's derivations that assume a symmetric random walk are no longer valid and must be recalibrated using simulation modeling.**
+
+The test procedure is thus as follows:
+1. Define $Z = \frac{X - (2p - 1)}{\sigma}$ and define $Y \sim Bernoulli(\frac{\mu + 1}{2})$ such that $E[Y] = E[Z]$ and $Var(Y) = Var(Z)$. The idea is that $Y$ is a  bernoulli random variable that creates a random walk along the horizontal axis with the same mean and variance as $Z$, the random walk created by transforming the biased difference of treatment and control successes. **We are transforming our biased random walk to an unbiased random walk so we can use Evan's derivation.**
+2. Solve for $\mu$ and $\sigma$ using the fact that $E[X]$ and $Var(X)$ are known. 
+3. Use $Y$ in Evan's derivation. This will change the probaiblity of the walk moving under $H_1$. 
+3. Recalibrate results using [bayesian optimization](https://scikit-optimize.github.io/stable/modules/generated/skopt.gp_minimize.html) in order to satisfy power and significance constraints because for large $p$, the asymmetrical step sizes cause $S_k = \sum_{i = 1}^kX_k$ to no longer be a symmetrical random walk whereas $\sum_{i = 1}^kY_k$ will always be symmetrical.
+
+
+### Solving for $\mu$ and $\sigma$
+
+Call $p'$ the probability of the walk stepping upwards. Under $H_0$, $p' = p$. We will solve for $p'$ later. 
+
+Define $E[X] = v = 2p' - 1$. Define $w = 2p - 1$. Then, $Var(X) = 1 - v^2$ since $X$ is a bernoulli random variable. 
+
+It follows that 
+
+$$E[Y] = \mu = \frac{v - w}{\sigma}$$
+
+and 
+
+$$ Var(Y) = \frac{1 - v^2}{\sigma^2} = 1 - \mu^2 $$
+
+thus
+
+$$ \sigma = \sqrt{(v - w)^2 +  1 - v^2}$$
+
+With $\mu$ known, we can compute the walk's probabilty of moving upwards and then work with a symmetrical random walk that is unbiased under $H_0$. 
+
+
+
+## Unbiased Random Walks 
+
+As a reminder, we are interested in creating a test region defined by barrier $d$ and maximum number of conversions $N$ such that the probability of the walk escaping the region under $H_0$ is equal to $\alpha$, which could look like this:
+
+![alt text](images/walk_without_bias.png)
 
 
 
@@ -75,21 +137,9 @@ $$ r_{n, d} = \frac{d}{n} {n \choose \frac{n + d}{2}} p ^ {\frac{n + d}{2}} (1 -
 
 $r_{n, d}$ is the probability of reaching $d$ for the very first time after $n$ iterations of the random walk. The basic idea is that this requires $d$ treatment conversions and then a balance of $\frac{n - d}{2}$ treatment converisons and $\frac{n - d}{2}$ control conversions (so a total of $\frac{n + d}{2}$ treatment conversions). 
 
-The term $\frac{d}{n} {n \choose \frac{n + d}{2}}$ comes from a clever argument using the [relection principle](https://www.uvm.edu/~sdaysmer/files/ballottheoremfinal.pdf) which can be read [here](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf)-  the key idea is that the probability of a walk at time $N$ and positiion $k < d$ having a maximum value of $d$ is the same as the probaiblity of a walk reaching the point $2d - k$ because we can construct an injective mapping of paths that cross $d$ and reach $k$, and paths that cross $d$ and reach $2d-k$, by multiplying the signs of steps by $-1$. **Importantly, if the rejection barrier now becomes $d(n) = n(2p - 1) + d$, the reflection principle based symmetric arguments no longer hold up because the walk must now remain under a sloped, not a straight, line.**
+The term $\frac{d}{n} {n \choose \frac{n + d}{2}}$ comes from a clever argument using the [relection principle](https://www.uvm.edu/~sdaysmer/files/ballottheoremfinal.pdf) which can be read [here](https://bitcoinwords.github.io/assets/papers/an-introduction-to-probability-theory-and-its-applications.pdf)-  the key idea is that the probability of a walk at time $N$ and positiion $k < d$ having a maximum value of $d$ is the same as the probaiblity of a walk reaching the point $2d - k$ because we can construct an injective mapping of paths that cross $d$ and reach $k$, and paths that cross $d$ and reach $2d-k$, by multiplying the signs of steps by $-1$. **Importantly, if the walk is no longer symmetric, the rejction principle no longer makes sense,  and $r_{n, d}$ fails to approximate the probability of the walk crossing $d$. This is why calibration is needed.**
 
-In this case, we know that
 
-$$ r_{n, d} < \frac{d(n)}{n} {n \choose \frac{n + d(n)}{2}} p ^ {\frac{n + d(n)}{2}} (1 - p)^{\frac{n - d(n)}{2}} $$
-
-since the number of paths below the sloped line is less than the number of paths below the horizontal line. Take the integer part of $d(n)$ for this to make sense. It is not exact, but the approximation works out. 
-
-At this point in time, I've yet to solve for $r_{n,d}$ exactly. This is an ongoing effort, although a bit of a black hole. However, it is possible to approximate the term by adding a hyperparamter, $\theta$, which I tune using a [bayesian search](https://scikit-optimize.github.io/stable/modules/generated/skopt.gp_minimize.html) calibrated using simulations. See the code for more details.
-
-Thus, we can call 
-
-$$ r_{n, d} = \theta \frac{d(n)}{n} {n \choose \frac{n + d(n)}{2}} p ^ {\frac{n + d(n)}{2}} (1 - p)^{\frac{n - d(n)}{2}} $$
-
-where $\theta = 1$ if $p = \frac{1}{2}$. Note that $\forall \space n < \frac{d}{2 - 2p}, \space r_{n, d} = 0$ since the first possible boundary crossing occurs when the line $y = x$ intersects $y = d + 2(p-1)x$. 
 
 Next, define $R_{N, d}$ as 
 
@@ -103,7 +153,7 @@ We can then choose $N$ and $d$ such that for some $\alpha$,
 
 $$ R_{N, d} < \alpha $$
 
-Then if $S_k$ crosses $d$ for any $k \leq N$, we reject $H_0$. 
+Then if $S_i' = \sum_{i=1}^N \frac{X_i - i(2p -1)}{\sigma}$ crosses $d$ for any $k \leq N$, we reject $H_0$. 
 
 
 
@@ -113,7 +163,7 @@ There are an infinite number of pairs $(N, d)$ that satisfy the significance equ
 
 We can choose the pair to use by adding the following constraint:
 
-$$ P(S_k > d(k), k \leq N | H_1)  > \beta$$
+$$ P(S_i' > i, k \leq N | H_1)  > \beta$$
 
 where $\beta$ is the probability of rejecting the null under the alternative hypothesis. 
 
@@ -128,9 +178,9 @@ $S_k$ steps up when a conversion takes place in the treatment group. $S_k$ only 
  Define $Z_t \sim Bernoulli(pp_t)$  and $Z_c \sim Bernoulli((1-p)p_c)$. $Z_t$ and $Z_c$ correspond to conversion in the treatment and control groups, respectively. 
 
 
-To be more precise, the walk steps up under the event $Z_t  = 1 | Z_t + Z_c = 1$. The probability of this event occuring, $p^*$, is defined as 
+To be more precise, the walk steps up under the event $Z_t  = 1 | Z_t + Z_c = 1$. The probability of this event occuring, $p'$, is defined as 
 
-$$ p^* = P(Z_t = 1 | Z_t + Z_c = 1) = 
+$$ p' = P(Z_t = 1 | Z_t + Z_c = 1) = 
 \frac{P(Z_t + Z_c = 1 | Z_t = 1)P(Z_t = 1)}
 {P(Z_t + Z_c = 1)} = 
 \frac{p p_t}{ p p_t + (1 - p)p_c} $$
@@ -138,27 +188,30 @@ $$ p^* = P(Z_t = 1 | Z_t + Z_c = 1) =
 
 Thus 
 
-$$ p^*  = \frac{p ( 1-\delta)}{1 - p\delta} $$
+$$ p'  = \frac{p ( 1-\delta)}{1 - p\delta} $$
 
 
-And the probability of conversion in $C = 1 - p^* = \frac{1 - p}{1 - p\delta}$
+And the probability of conversion in $C = 1 - p'= \frac{1 - p}{1 - p\delta}$
 
 
 If we are considering the opposite case, where $p_t = (1 + \delta)p_c$, then 
 
-$$p^* = \frac{p(1 + \delta)}{1 +  p\delta}$$
+$$p' = \frac{p(1 + \delta)}{1 +  p\delta}$$
 
-and $1 - p^* = \frac{1 - p} {1+ p\delta}$
+and $1 - p'= \frac{1 - p} {1+ p\delta}$
+
+**This is the same $p'$ from earlier; with it, solve for $\mu$ and note that the walk has bias that can be approximated as $p^* = \frac{\mu + 1}{2}$ under $H_1$.**
 
 Thus, the equations to optimize become 
 
-$$ \theta \sum_{n= 1}^N\frac{d(n)}{n} {n \choose \frac{n + d(n)}{2}} p ^ {\frac{n + d(n)}{2}} (1 - p)^{\frac{n - d(n)}{2}} < \alpha$$
+$$ \sum_{n= 1}^N\frac{d}{n} {n \choose \frac{n + d}{2}} p ^ {\frac{n + d}{2}} (1 - p)^{\frac{n - d}{2}} < \alpha$$
 
 and 
 
 
-$$ \theta \sum_{n= 1}^N\frac{d(n)}{n} {n \choose \frac{n + d(n)}{2}} (\frac{p ( 1-\delta)}{1 - p\delta}) ^ {\frac{n + d(n)}{2}} (\frac{1 - p}{1 - p\delta})^{\frac{n - d(n)}{2}} > \beta$$
+$$ \sum_{n= 1}^N\frac{d}{n} {n \choose \frac{n + d}{2}} (p^*)^ {\frac{n + d}{2}} (1 - p^*)^{\frac{n - d}{2}} > \beta$$
 
+For large $p$, $\alpha$ and $\beta$ may need to be recalibrated. 
 
 ## Impossible regions
 
