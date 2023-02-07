@@ -5,6 +5,7 @@ from scipy.special import betaln
 
 MAX_BARRIER = 5000
 MAX_CONVERSIONS = 80000
+AREA_RATIO = 1
 
 
 def search_for_barrier(
@@ -52,16 +53,23 @@ def search_for_barrier(
         null_cdf = 0
         alt_cdf = 0
 
-        for n in range(int(z), MAX_CONVERSIONS + 1, 2):
+        first_n = int(z / (2 - 2 * null_p))
+        for n in range(first_n, MAX_CONVERSIONS + 1, 2):
 
-            k = 0.5 * (n + z)
-            prefix = z / n / k
+            # handle bias - null
+            z_use = int(z + n * (2 * null_p - 1))
+            area_ratio = AREA_RATIO
+            k = 0.5 * (n + z_use)
+
+            prefix = z_use / n / k * area_ratio
             lbeta_k = betaln(k, n + 1 - k)
 
             null_cdf += prefix * np.exp(
-                -lbeta_k + (k - z) * log_null_1_p + k * log_null_p
+                -lbeta_k + (k - z_use) * log_null_1_p + k * log_null_p
             )
-            alt_cdf += prefix * np.exp(-lbeta_k + (k - z) * log_alt_1_p + k * log_alt_p)
+            alt_cdf += prefix * np.exp(
+                -lbeta_k + (k - z_use) * log_alt_1_p + k * log_alt_p
+            )
 
             if np.isnan(null_cdf) | np.isnan(alt_cdf):
                 break
@@ -77,10 +85,9 @@ def search_for_barrier(
                 z_low = z + 2
 
         if (np.isnan(null_cdf)) | (np.isnan(alt_cdf)) | (n >= MAX_CONVERSIONS):
-            print("NaN...")
+            # print("NaN...")
             break
         print(f"High: {z_high}, Low: {z_low}, Z: {z}, null: {null_cdf}, alt: {alt_cdf}")
-        # import ipdb; ipdb.set_trace()
         z = z_low + 2 * np.floor((z_high - z_low) / 4)
 
     return z
@@ -123,16 +130,22 @@ def get_conversions_for_specified_barrier(
     log_alt_p = np.log(alt_p)
     log_alt_1_p = np.log(1 - alt_p)
 
-    # import ipdb; ipdb.set_trace()
+    first_n = int(z / (2 - 2 * null_p))
+    for n in range(first_n, MAX_CONVERSIONS + 1, 2):
 
-    for n in range(int(z), MAX_CONVERSIONS + 1, 2):
-        k = 0.5 * (n + z)
+        # handle bias - null
+        z_use = int(z + n * (2 * null_p - 1))
 
-        prefix = z / n / k
+        k = 0.5 * (n + z_use)
+        area_ratio = AREA_RATIO
+
+        prefix = z_use / n / k * area_ratio
         lbeta_k = betaln(k, n + 1 - k)
 
-        null_cdf += prefix * np.exp(-lbeta_k + (k - z) * log_null_1_p + k * log_null_p)
-        alt_cdf += prefix * np.exp(-lbeta_k + (k - z) * log_alt_1_p + k * log_alt_p)
+        null_cdf += prefix * np.exp(
+            -lbeta_k + (k - z_use) * log_null_1_p + k * log_null_p
+        )
+        alt_cdf += prefix * np.exp(-lbeta_k + (k - z_use) * log_alt_1_p + k * log_alt_p)
 
         if np.isnan(null_cdf) | np.isnan(alt_cdf):
             return np.nan
