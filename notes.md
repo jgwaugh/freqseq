@@ -217,4 +217,4 @@ For large $p$, $\alpha$ and $\beta$ may need to be recalibrated.
 
 ### When $\delta < 0$
 
-If $\delta < 0$, switch $p$ and $1 - p$ - the problem is now symmtric to $\delta > 0$. 
+If $\delta < 0$, switch $p$ and $1 - p$ - the problem is now symmetric to $\delta > 0$. 
