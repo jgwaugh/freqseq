@@ -30,7 +30,7 @@ $$S_k = \sum_{i=1}^k{X_i}$$
 
  is then a biased random walk. Under $H_0$, $p_c = p_t$, so we can effectively estimate $S_k$ with bias $p$.
 
-Note that the following is an unbiased random walk:
+Note that the following is an unbiased random walk under $H_0$:
 
 $$ \tilde{S_k} = \sum_{i=1}^k{X_i} - k(2p -1) $$
 
