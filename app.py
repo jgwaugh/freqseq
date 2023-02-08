@@ -60,7 +60,7 @@ st.write(
     
     For $\delta < 0$, reject when $S' > d$
     
-    $$ S' = (C - T - (T + C)(2(1 - p) -1)\sigma^{-1} $$
+    $$ S' = (C - T - (T + C)(2(1 - p) -1))\sigma^{-1} $$
     
     If $T + C > N$ and $d$ has yet to be crossed, the test fails. 
 
@@ -76,8 +76,8 @@ p = st.number_input(
 
 delta = st.slider(
     "Insert the minimum detectable effect",
-    min_value=-2.0,
-    max_value=2.0,
+    min_value=-.9,
+    max_value=0.9,
     step=0.1,
     value=0.3,
 )

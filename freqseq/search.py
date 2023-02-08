@@ -165,7 +165,7 @@ def get_conversions_for_specified_barrier(
     return np.nan
 
 
-def get_test_constraints(
+def get_test_boundaries(
     alpha: float, power_level: float, null_p: float, alternative_p: float
 ) -> Tuple[int, int]:
     """

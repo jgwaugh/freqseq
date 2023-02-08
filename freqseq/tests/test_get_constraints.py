@@ -1,6 +1,6 @@
 import pytest
 
-from freqseq import get_test_constraints
+from freqseq import get_test_boundaries
 from freqseq.hypothesis import get_p_sucess
 
 """
@@ -24,6 +24,6 @@ handle the other cases.
 )
 def test_build_test(delta, alpha, power, expected_N, expected_d):
     p_success = get_p_sucess(0.5, delta)
-    N, d = get_test_constraints(alpha, power, 0.5, p_success)
+    N, d = get_test_boundaries(alpha, power, 0.5, p_success)
 
     assert (N == expected_N) & (d == expected_d)

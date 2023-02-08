@@ -7,7 +7,7 @@ from freqseq.hypothesis import (
     get_barrier_crossing_rate,
     get_p_sucess,
 )
-from freqseq.search import get_test_constraints
+from freqseq.search import get_test_boundaries
 
 
 def build_test(
@@ -47,7 +47,7 @@ def build_test(
 
     p_star, sigma = compute_transformed_walk_parameters(p, delta)
 
-    N, d = get_test_constraints(alpha, beta, 0.5, p_star)
+    N, d = get_test_boundaries(alpha, beta, 0.5, p_star)
 
     if np.isnan(N) or np.isnan(d):
         return np.nan, np.nan, np.nan, 5, 5
