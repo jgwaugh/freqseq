@@ -76,7 +76,7 @@ p = st.number_input(
 
 delta = st.slider(
     "Insert the minimum detectable effect",
-    min_value=-.9,
+    min_value=-0.9,
     max_value=0.9,
     step=0.1,
     value=0.3,
