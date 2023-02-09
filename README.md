@@ -2,14 +2,18 @@
 
 ## Intro
 
-`freqseq` stands for "Frequentist Sequential" and is an implementation of one sided frequentist sequential hypothesis testing in  `python`. Credit for the initial derivation goes to [Evan Miller](https://www.evanmiller.org/sequential-ab-testing.html#notes). I've simply gone over his derivation in more granularity, added calculations dealing with treatment assignment bias, and written a `python` implementation. 
+`freqseq` stands for "Frequentist Sequential" and is an implementation of one sided frequentist sequential hypothesis testing in  `python`. Credit for the initial derivation goes to [Evan Miller](https://www.evanmiller.org/sequential-ab-testing.html). I've simply gone over his derivation in more granularity, added calculations dealing with treatment assignment bias, and written a `python` implementation. 
 
 
 ## Problem
 
-Suppose we are running a random experiment to determine the efficacy of some intervention. We would like to end this experiment early if results look promising without "peeking" (peeking incurs bias by effectively testing multiple hypotheses). 
+Suppose we are running a random experiment to determine the efficacy of some intervention with a binary response. We would like to end this experiment early if results look promising without "peeking" (peeking incurs bias by effectively testing multiple hypotheses). 
 
 What we want here is a **sequential test**, a test that allows for early stopping if results look promising without incurring a heightened false positive rate. 
+
+The basic strategy is to construct a random walk dependent on 
+
+For more information on test construction see [here](notes.md). 
 
 
 ## Install
