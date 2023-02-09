@@ -13,6 +13,15 @@ What we want here is a **sequential test**, a test that allows for early stoppin
 
 The basic strategy is to construct a random walk dependent on conversions in a treatment and control group. We can then define a region such that the random walk escapes that region at fixed rates under the both the hypothesis of equal conversion rates in the treatment and control groups and the hypothesis of unequal rates in each group. 
 
+The test is defined by three parameters:
+1. $N$ - the maximum amount of time to run the test (vertical barrier)
+2. $d$ - the horizontal barrier - if the walk escapes $d$, we reject the null hypothesis. 
+3. $\sigma$ - a variance conversion factor to transform the data into a random walk when treatment assignment probability is biased. 
+
+Here is an example of what the region could look like:
+
+![alt text](images/walk_without_bias.png)
+
 See [here](notes.md) for more information on test construction. 
 
 
