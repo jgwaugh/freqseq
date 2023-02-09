@@ -7,13 +7,13 @@
 
 ## Problem
 
-Suppose we are running a random experiment to determine the efficacy of some intervention with a binary response. We would like to end this experiment early if results look promising without "peeking" (peeking incurs bias by effectively testing multiple hypotheses). 
+Suppose we are running a random experiment to determine the efficacy of some intervention with a **binary response**. We would like to end this experiment early if results look promising without "peeking" (peeking incurs bias by effectively testing multiple hypotheses). 
 
 What we want here is a **sequential test**, a test that allows for early stopping if results look promising without incurring a heightened false positive rate. 
 
-The basic strategy is to construct a random walk dependent on 
+The basic strategy is to construct a random walk dependent on conversions in a treatment and control group. We can then define a region such that the random walk escapes that region at fixed rates under the both the hypothesis of equal conversion rates in the treatment and control groups and the hypothesis of unequal rates in each group. 
 
-For more information on test construction see [here](notes.md). 
+See [here](notes.md) for more information on test construction. 
 
 
 ## Install
