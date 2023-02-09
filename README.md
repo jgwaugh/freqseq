@@ -7,7 +7,7 @@
 
 ## Problem
 
-Suppose we are running a random experiment to determine the efficacy of some intervention with a **binary response**. We would like to end this experiment early if results look promising without "peeking" (peeking incurs bias by effectively testing multiple hypotheses). 
+Suppose we are running a random experiment to determine the efficacy of some intervention with a **binary response** (the response taking the value of $1$ is called a "conversion"). We would like to end this experiment early if results look promising without "peeking" (peeking incurs bias by effectively testing multiple hypotheses). 
 
 What we want here is a **sequential test**, a test that allows for early stopping if results look promising without incurring a heightened false positive rate. 
 
