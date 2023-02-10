@@ -2,8 +2,11 @@ from typing import Tuple
 
 import numpy as np
 
-from freqseq.hypothesis import (compute_transformed_walk_parameters,
-                                get_barrier_crossing_rate, get_p_sucess)
+from freqseq.hypothesis import (
+    compute_transformed_walk_parameters,
+    get_barrier_crossing_rate,
+    get_p_sucess,
+)
 from freqseq.search import get_test_boundaries
 
 
