@@ -4,6 +4,12 @@
 
 `freqseq` stands for "Frequentist Sequential" and is an implementation of one sided frequentist sequential A/B testing in  `python`. Credit for the initial derivation goes to [Evan Miller](https://www.evanmiller.org/sequential-ab-testing.html). I've simply gone over his derivation in more granularity, added calculations dealing with treatment assignment bias, and written a `python` implementation. 
 
+## Repo Contents
+
+1. [`notes.md`](notes.md) - a derivation of the testing approach
+2. [`app.py`](app.py) - a `streamlit` app which generates test statistics for various input conditions
+3. [`freqseq`](freqseq) - a `python` package containing implementation of the testing strategy
+
 
 ## Problem
 
@@ -37,12 +43,5 @@ The app should look something like this:
 
 ![alt text](images/top_app.png)
 ![alt text](images/bottom_app.png)
-
-## Repo Contents
-
-1. `notes.md` - a derivation of the testing approach
-2. `app.py` - a `streamlit` app which generates test statistics for various input conditions
-3. `freqseq` - a `python` package containing implementation of the testing strategy
-
 
 
