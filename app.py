@@ -52,13 +52,14 @@ st.write(
     
     Where $p_t$ and $p_c$ are probability of treatment and control events
     occuring, respectively. Call $T$ and $C$ the total number of conversions in 
-    the treatment and control groups at any given time. 
+    the treatment and control groups at any given time. $p$ is the probability
+    of assignment to the treatment group. 
     
-    Reject $H_0 : p_c = p_t$ for $\delta > 0$ when $S > d$
+    Reject $H_0 : p_c = p_t$ for $H_1: \delta > 0$ when $S > d$
     
     $$ S = (T - C - (T + C)(2p -1))\sigma^{-1} $$
     
-    For $\delta < 0$, reject when $S' > d$
+    For $H_1: \delta < 0$, reject when $S' > d$
     
     $$ S' = (C - T - (T + C)(2(1 - p) -1))\sigma^{-1} $$
     
